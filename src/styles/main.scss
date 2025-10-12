@@ -1,0 +1,9 @@
+// Темизация по data-theme на html
+@use 'abstracts/variables' as *;
+@use 'abstracts/mixins' as *;
+@use 'abstracts/animation' as *;
+@use 'vendors/normalize';
+@use 'base/body';
+@use 'layout/sections-spacing';
+@use 'themes/light';
+@use 'themes/dark';

@@ -1,0 +1,535 @@
+{
+  "generated_at": "2025-10-11T14:29:01.988122Z",
+  "source_image": "/mnt/data/6b21b145-ab9a-48f6-aa7d-fbe48c520965.png",
+  "timezone_hint": "local times copied as shown in UI screenshot (unknown tz)",
+  "schema": {
+    "id": "uuid string",
+    "sport": "string",
+    "league": "string",
+    "country": "string",
+    "status": "scheduled|live|finished|postponed",
+    "format": "optional e.g. 2x2, 3x3",
+    "kickoff_local": "HH:mm as shown",
+    "home": {
+      "name": "string",
+      "logo_url": "string|null"
+    },
+    "away": {
+      "name": "string",
+      "logo_url": "string|null"
+    },
+    "category_id": "string (id of sport category)"
+  },
+  "categories": [
+    {
+      "id": "cat-football",
+      "name": "Football",
+      "slug": "football"
+    },
+    {
+      "id": "cat-basketball",
+      "name": "Basketball",
+      "slug": "basketball"
+    },
+    {
+      "id": "cat-tennis",
+      "name": "Tennis",
+      "slug": "tennis"
+    },
+    {
+      "id": "cat-volleyball",
+      "name": "Volleyball",
+      "slug": "volleyball"
+    },
+    {
+      "id": "cat-tabletennis",
+      "name": "Table Tennis",
+      "slug": "table-tennis"
+    },
+    {
+      "id": "cat-icehockey",
+      "name": "Ice Hockey",
+      "slug": "ice-hockey"
+    },
+    {
+      "id": "cat-esports",
+      "name": "Esports",
+      "slug": "esports"
+    },
+    {
+      "id": "cat-handball",
+      "name": "Handball",
+      "slug": "handball"
+    }
+  ],
+  "matches": [
+    {
+      "id": "00723462-81e1-49d0-ab86-cd38f27260ac",
+      "sport": "Football",
+      "league": "Russia 2 Liga Division A",
+      "country": "Russia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "14:00",
+      "home": {
+        "name": "Veles Moskova",
+        "logo_url": null
+      },
+      "away": {
+        "name": "FC Dynamo Kirov",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "dbf9baf2-4a7c-49f2-aaf2-e05795ec8839",
+      "sport": "Football",
+      "league": "Belarus 1. Liga",
+      "country": "Belarus",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "14:00",
+      "home": {
+        "name": "FC Orsha",
+        "logo_url": null
+      },
+      "away": {
+        "name": "FC Baranovichi",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "512446a0-de81-40bb-9924-969296df1fda",
+      "sport": "Football",
+      "league": "Norway Women",
+      "country": "Norway",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "14:00",
+      "home": {
+        "name": "Lyn (Women)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Kolbotn Fotball (Women)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "36d018c4-0129-4511-90a7-034ff6e7b427",
+      "sport": "Tennis",
+      "league": "Russia 2 Liga Division B, Group",
+      "country": "Russia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "14:00",
+      "home": {
+        "name": "FC Ryazan",
+        "logo_url": null
+      },
+      "away": {
+        "name": "FC Arsenal Tula II",
+        "logo_url": null
+      },
+      "category_id": "cat-tennis"
+    },
+    {
+      "id": "2fb0c702-c32e-4e0b-b1f2-df4cdf9b3613",
+      "sport": "Football",
+      "league": "Denmark Women",
+      "country": "Denmark",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "14:00",
+      "home": {
+        "name": "Odense Boldklub (Women)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "HB Køge (Women)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "29fd211f-c0fb-4b23-8416-f5a49634ec2e",
+      "sport": "Football",
+      "league": "Australian Championship",
+      "country": "Australia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "07:00",
+      "home": {
+        "name": "Preston Lions",
+        "logo_url": null
+      },
+      "away": {
+        "name": "NWS Spirit",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "d33a3685-eb4a-4ce4-a831-0a1dc9ac750e",
+      "sport": "Football",
+      "league": "Short Football 2x2",
+      "country": "International",
+      "status": "scheduled",
+      "format": "2x2",
+      "kickoff_local": "15:53",
+      "home": {
+        "name": "Pegasus (2x2)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Concordia (2x2)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "b04e3705-a021-4c34-b181-a03ba2d1611a",
+      "sport": "Football",
+      "league": "Short Football 3x3 L1",
+      "country": "International",
+      "status": "scheduled",
+      "format": "3x3",
+      "kickoff_local": "15:29",
+      "home": {
+        "name": "Commander (3x3)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Triana (3x3)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "f3c47702-dfee-411b-a127-b25dc465e2d9",
+      "sport": "Football",
+      "league": "Short Football 4x4",
+      "country": "International",
+      "status": "scheduled",
+      "format": "4x4",
+      "kickoff_local": "15:14",
+      "home": {
+        "name": "Pegasus (4x4)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Citadel (4x4)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "fa5ba0b3-3d4e-408a-b301-dfd2654675dc",
+      "sport": "Football",
+      "league": "MLS+",
+      "country": "USA",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:35",
+      "home": {
+        "name": "Birmingham +",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Loudoun +",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "d0a2494d-19ff-4ecf-996c-635b0cee4e3e",
+      "sport": "Football",
+      "league": "MLS+",
+      "country": "USA",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:55",
+      "home": {
+        "name": "Austin +",
+        "logo_url": null
+      },
+      "away": {
+        "name": "St. Louis +",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "8cfbc8e8-72c2-474a-a513-08e919f5e71c",
+      "sport": "Football",
+      "league": "Derby League",
+      "country": "International",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:33",
+      "home": {
+        "name": "Marseille",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Benfica",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "0660bb2b-3807-4e1f-b94d-3574a6f3d411",
+      "sport": "Football",
+      "league": "USSR Division 3x3",
+      "country": "International",
+      "status": "scheduled",
+      "format": "3x3",
+      "kickoff_local": "15:51",
+      "home": {
+        "name": "Rusya (3x3)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Gürcistan (3x3)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "cda19924-c7f3-4e38-a3f5-c76c2dd709b6",
+      "sport": "Football",
+      "league": "Division 3x3",
+      "country": "International",
+      "status": "scheduled",
+      "format": "3x3",
+      "kickoff_local": "15:37",
+      "home": {
+        "name": "Hollanda (3x3)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Arjantin (3x3)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "5fd2583b-0bd0-4530-aa8a-d5aa636b19d3",
+      "sport": "Football",
+      "league": "Turkey TFF 2. Lig",
+      "country": "Turkey",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:50",
+      "home": {
+        "name": "Aliaga AS",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Yeni Malatyaspor",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "38318a1c-8bd6-4601-9992-b2954f7bb7ff",
+      "sport": "Football",
+      "league": "Russia 2 Liga Division A, Group",
+      "country": "Russia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:44",
+      "home": {
+        "name": "FC Kaluga",
+        "logo_url": null
+      },
+      "away": {
+        "name": "FC Kuban Krasnodar",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "bf652015-231a-489c-9d5c-eee9291d8959",
+      "sport": "Football",
+      "league": "Belarus Women",
+      "country": "Belarus",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:48",
+      "home": {
+        "name": "FK Zorka-BDU Min.",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Dinamo Brest (Women)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "a583722c-4ea6-441f-bfae-77b9c2bedeed",
+      "sport": "Football",
+      "league": "Short Football 3x3 L1",
+      "country": "International",
+      "status": "scheduled",
+      "format": "3x3",
+      "kickoff_local": "15:20",
+      "home": {
+        "name": "Baishan",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Dalian",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "f379829a-0d04-464b-aedb-9bf4d2b589df",
+      "sport": "Football",
+      "league": "Short Football 5x5",
+      "country": "International",
+      "status": "scheduled",
+      "format": "5x5",
+      "kickoff_local": "15:25",
+      "home": {
+        "name": "Shanghai+",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Osaka+",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "696ab6c8-16e6-494b-ace2-d7ac8378ca33",
+      "sport": "Football",
+      "league": "ACL Indoor",
+      "country": "International",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:57",
+      "home": {
+        "name": "Milan (ACL)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Valencia (ACL)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "3212c1cc-84e6-4d88-b111-8f6ab0faa7d7",
+      "sport": "Football",
+      "league": "Student League",
+      "country": "International",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:25",
+      "home": {
+        "name": "REGION",
+        "logo_url": null
+      },
+      "away": {
+        "name": "ROCKET",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "ca313741-8041-4aad-90a4-bfc7d5a6d611",
+      "sport": "Football",
+      "league": "Eredivisie 3x3",
+      "country": "International",
+      "status": "scheduled",
+      "format": "3x3",
+      "kickoff_local": "15:29",
+      "home": {
+        "name": "Roda (Amatörler)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Utrecht (Amatörler)",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "68face42-7618-4761-9389-b74f5a640f0a",
+      "sport": "Football",
+      "league": "Malaysia Women 1. Lig",
+      "country": "Malaysia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:57",
+      "home": {
+        "name": "MBSJ (Bayanlar)",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Selangor Shah Alam",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "bbef57f3-9028-4101-b4c0-1c3955921254",
+      "sport": "Football",
+      "league": "Estonia 3. Lig",
+      "country": "Estonia",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:40",
+      "home": {
+        "name": "Maardu Linnameeskond",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Tabasalu",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "8d208706-ba2f-486b-bc17-0cba9ac8c3f0",
+      "sport": "Football",
+      "league": "Turkey TFF 2. Lig",
+      "country": "Turkey",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:20",
+      "home": {
+        "name": "Suvremz Maç",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Mazıdağı Fosfat Spor",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    },
+    {
+      "id": "0c37bd13-a508-486a-822b-b0555e08b8b3",
+      "sport": "Football",
+      "league": "Turkey TFF 2. Lig",
+      "country": "Turkey",
+      "status": "scheduled",
+      "format": null,
+      "kickoff_local": "15:20",
+      "home": {
+        "name": "Polatlı Belediye Spor",
+        "logo_url": null
+      },
+      "away": {
+        "name": "Beykoz İshaklı",
+        "logo_url": null
+      },
+      "category_id": "cat-football"
+    }
+  ]
+}

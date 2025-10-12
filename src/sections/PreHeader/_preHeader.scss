@@ -1,0 +1,37 @@
+@use '../../styles/abstracts/variables' as *;
+
+.s-preHeader {
+  padding: 1em 2em;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
+  -webkit-border-bottom-right-radius: $radius-main;
+  -webkit-border-bottom-left-radius: $radius-main;
+  -moz-border-radius-bottomright: $radius-main;
+  -moz-border-radius-bottomleft: $radius-main;
+  border-bottom-right-radius: $radius-main;
+  border-bottom-left-radius: $radius-main;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  color: $color-text;
+  .s-preHeader__link {
+    font-size: .75em;
+    line-height: 1;
+    a{
+      margin-left: .5em;
+      font-weight: 800;
+    }
+  }
+  .s-preHeader__social {
+    line-height: 1;
+    .s-preHeader__social_icon:not(:first-child) {
+      margin-left: 1em;
+    }
+    svg {
+        width: 1em;
+        height: 1em;
+        color: $color-white;
+      }
+  }
+}

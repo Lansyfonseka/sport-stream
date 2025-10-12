@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes listblink {
+  0% {
+    opacity: .4;
+  }
+  50% {
+      opacity: 1;
+  }
+  100% {
+      opacity: .4;
+    }
+}
+
+@keyframes singlematch {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.5em) rotateZ(2deg) scale(1.1);
+  }
+  100% {
+      opacity: 1;
+      transform: none;
+  }
+}

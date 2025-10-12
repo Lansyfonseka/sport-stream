@@ -1,0 +1,28 @@
+$container-max: 1200px;
+$width-max: 1000px;
+$gutter: 24px;
+
+
+// Next-like palette
+$color-bg: #05070b; // very dark blue
+$color-main-bg: #002e31 no-repeat center top fixed;
+$color-white: #ffffff;
+$color-black: #000000;
+// $color-surface: #0f1630; // cards/nav background
+$color-text: #ffffff; // text
+$color-text-bleak: #ffffff4d;
+// $color-muted: #a9b1c7; // secondary text
+// $color-primary: #0f4bc9; // royal blue
+// $color-primary-600: #0d3fa8;
+// $color-accent: #f2c34f; // gold
+$color-border: #253055;
+
+$font-main: "Rubik", sans-serif;
+
+
+$radius-main: 6px;
+$shadow: 0 10px 30px rgba(0,0,0,.35);
+
+$transition: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+:root { --duration:.25s; --easing:cubic-bezier(.2,.8,.2,1); }

@@ -1,0 +1,42 @@
+@use '../../styles/abstracts/variables' as *;
+
+.hls-player {
+  /* Значения по умолчанию: можно переопределить в классе-носителе */
+  --w: 1000px;
+  --h: 520px;
+  --fit: contain; // cover | contain | fill | none | scale-down
+  --radius: 8px;
+
+  margin: 10px 0;
+  width: var(--w);
+  height: var(--h);
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  border-radius: var(--radius);
+
+  &__video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: var(--fit);
+  }
+
+  /* Модификаторы object-fit (если удобнее классами) */
+  &--cover   { --fit: cover; }
+  &--contain { --fit: contain; }
+  &--fill    { --fit: fill; }
+}
+
+/* Примеры преднастроенных размеров */
+.hls-player--16x9-sm { --w: 480px;  --h: calc(480px * 9 / 16); }
+.hls-player--16x9-md { --w: 800px;  --h: calc(800px * 9 / 16); }
+.hls-player--16x9-lg { --w: 1200px; --h: calc(1200px * 9 / 16); }
+
+/* Адаптивный блок по ширине контейнера с сохранением соотношения */
+.hls-player--fluid {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; // можно поменять
+  .hls-player__video { height: 100%; }
+}

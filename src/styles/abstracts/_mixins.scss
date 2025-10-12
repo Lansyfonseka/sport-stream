@@ -1,0 +1,19 @@
+@use 'variables' as *;
+@mixin container($size: lg) {
+$width: if($size == xl, 1280px, if($size == lg, 1120px, 920px));
+margin-inline: auto;
+max-width: min(#{$width}, 100% - 2 * #{$gutter});
+}
+
+
+@mixin card() {
+background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),$color-surface;
+border: 1px solid $color-border;
+border-radius: $radius;
+box-shadow: $shadow;
+}
+
+
+@mixin fluid-type($min, $max) {
+font-size: clamp(#{$min}, 2vw + 1rem, #{$max});
+}

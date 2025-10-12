@@ -1,0 +1,186 @@
+@use '../../styles/abstracts/variables' as *;
+
+.sb {
+  color: $color-text;
+  display: grid;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: $radius-main;
+  overflow: hidden;
+
+  &__bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+  }
+
+  &__tabs {
+    display: flex;
+    overflow: auto;
+    padding-bottom: 2px;
+  }
+
+  &__tab {
+    position: relative;
+    cursor: pointer;
+    color: rgba(255, 255, 255, .1);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .75em;
+    transition: all 200ms cubic-bezier(0.22, 0.61, 0.36, 1);    
+
+    &.is-active {
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
+      color: $color-white;
+      pointer-events: none;
+      padding-left: 52px;
+      .sb__tab-count {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 40px;
+      }
+    }
+
+    &:hover { 
+      transform: translateY(-3px); 
+    }
+
+    .sb__tab-count {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(100% - 0px);
+      display: none;
+      line-height: 1;
+      color: #fff;
+      background: #e53c33;
+      font-size: .75em;
+      white-space: nowrap;
+      animation: listblink 1000ms linear infinite;
+      padding: .5em 0;
+      text-align: center;
+      }
+  }
+
+  &__search {
+    position: relative; display: inline-flex; align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    padding: .75em 1em .75em 1em;
+    gap: 8px; 
+    min-width: 260px;
+
+    &:focus-within {
+      outline: -webkit-focus-ring-color auto 2px;
+    }
+
+    input {
+      background: transparent; 
+      border: 0; 
+      outline: 0; 
+      color: $color-text;
+      width: 100%; 
+      font-size: .875em;
+      &::placeholder { color: #a9b1c7; }
+      
+    }
+    &-ic { 
+      width: 18px; 
+      height: 18px; 
+      fill: #a9b1c7; }
+  }
+
+  &__grid {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    list-style: none; 
+    padding: 0; 
+    margin: 0;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__empty, &--empty {
+    color: #a9b1c7;
+    text-align: center;
+    padding: 24px 0;
+  }
+}
+
+/* Карточка матча */
+.sb-card {
+    display: grid;
+    grid-template-columns: 24px 1fr 24px;
+    gap: 1em;
+    align-items: center;
+    justify-content: flex-start;
+    padding: .5em 1em;
+    transition: all 200ms $transition;
+    cursor: pointer;
+    scroll-snap-align: start;
+    animation-name: singlematch;
+    animation-timing-function: $transition;
+    animation-fill-mode: forwards;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 62px;
+    .sb-team__logo {
+      max-width: 100%;
+      border-radius: 50%;
+    }
+    .sb-card__match-detail {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      span {
+        font-size: .7em;
+        color: rgba(255, 255, 255, .3);
+        transition: all 200ms $transition;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+      }
+      .sb-card__match-detail_team {
+        display: flex;
+        justify-content: space-between;
+        span {
+          font-size: 1.1em;
+          color: $color-white;
+        }
+      }
+    }
+    &:nth-child(odd) {
+      background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+    }
+    &:hover {
+      background: $color-white;
+      .sb-card__match-detail_time-league {
+        color: rgba(0, 0, 0, .5);
+      }
+      span, .sb-card__match-detail_team span {
+        color: $color-black;
+      }
+    }
+}
+
+/* Адаптив */
+@media (max-width: 1100px) {
+  .sb__grid { grid-template-columns: repeat(2, 1fr); }
+  .sb-card:nth-child(n) {
+    background: none;
+  }
+  .sb-card:nth-child(4n+1), .sb-card:nth-child(4n+4) {
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+  }
+}
+@media (max-width: 700px) {
+  .sb__bar { grid-template-columns: 1fr; }
+  .sb__grid { grid-template-columns: 1fr; }
+}

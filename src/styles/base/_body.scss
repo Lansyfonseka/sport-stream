@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+body {
+  margin: 0 auto;
+  background: $color-main-bg;
+  max-width: $width-max;
+  font-family: $font-main;
+}

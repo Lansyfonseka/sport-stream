@@ -1,0 +1,113 @@
+/* normalize.scss */
+
+/* Общий сброс и нормализация */
+html {
+  line-height: 1.15; /* Для более корректного понимания высоты линий */
+  -webkit-text-size-adjust: 100%; /* Предотвращает изменение размера текста на мобильных устройствах */
+  box-sizing: border-box; /* Всё внутри box-sizing */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* Обнуляем списки */
+ol, ul {
+  list-style: none;
+}
+
+/* Обнуляем таблицы */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Универсальные стили для текста и элементов формы */
+button,
+input,
+select,
+textarea {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  appearance: none; /* Убирает стандартный стиль для селектов, чекбоксов и т. д. */
+  outline: none; /* Убирает outline, можно добавить при фокусе отдельно */
+}
+
+/* Убираем выделение для ссылок и других элементов */
+a {
+  background-color: transparent;
+  text-decoration: none;
+  color: inherit;
+}
+
+a:focus {
+  outline: inherit;
+}
+
+/* Обнуляем изображения и видео */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Обнуляем декоративные элементы у списков */
+li {
+  list-style: none;
+}
+
+/* Обнуляем блоки при помощи универсальных правил */
+div,
+section,
+article,
+aside,
+header,
+footer,
+nav,
+main,
+figure,
+figcaption {
+  display: block;
+}
+
+/* Для формы и интерактивных элементов */
+button {
+  cursor: pointer;
+  background: none;
+}
+
+/* Убираем выделение текста при выделении пользователем */
+*:focus {
+  outline: none;
+}
+
+/* Дополнительные сбросы для элементов по необходимости */
+hr {
+  border: 0;
+  height: 1px;
+  background: #000;
+}
+
+/* Обнуляем кавычки для кавычек в цитатах для единообразия */
+blockquote,
+q {
+  quotes: none;
+}
+
+/* Убираем внешние отступы у элементов по аналогии с reset.css */
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
