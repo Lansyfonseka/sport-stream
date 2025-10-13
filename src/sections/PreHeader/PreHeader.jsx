@@ -1,4 +1,3 @@
-import Container from '../../components/Container/Container'
 import './_preHeader.scss';
 import { InstagramLogo } from '../../assets/instagram';
 import { TwitterLogo } from '../../assets/twitter';
