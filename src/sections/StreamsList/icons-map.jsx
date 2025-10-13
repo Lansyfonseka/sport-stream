@@ -1,4 +1,3 @@
-
 /* хелпер для сопоставления с категориями */
 export const getCategoryIcon = (slug) => {
   const map = {
@@ -23,6 +22,8 @@ export const getCategoryIcon = (slug) => {
     efootball: 144,
     bitchVolleyball: 29,
     "table-tennis": 10,
+    racing: 11,
+    other: 1,
   };
-  return map[slug] || "soccerHex";
+  return map[slug] || 1;
 };

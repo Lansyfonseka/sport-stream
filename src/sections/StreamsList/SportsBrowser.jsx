@@ -1,8 +1,7 @@
-import './_sportsBrowser.scss';
+import "./_sportsBrowser.scss";
 
 import { useMemo, useState } from "react";
-import { getCategoryIcon } from './icons-map';
-
+import { getCategoryIcon } from "./icons-map";
 
 /**
  * Props:
@@ -20,13 +19,14 @@ import { getCategoryIcon } from './icons-map';
  *  - className?: string
  */
 
-
-export default function SportsBrowser({ data, className = "" }) {
-  const [activeCat, setActiveCat] = useState(
-    data?.categories?.[0]?.id ?? null
-  );
+export default function SportsBrowser({
+  data,
+  className = "",
+  onStreamSelect,
+}) {
+  const [activeCat, setActiveCat] = useState(data?.categories?.[0]?.id ?? null);
   const [query, setQuery] = useState("");
-  const [streamStatus, setStreamStatus] = useState('live');
+  const [streamStatus, setStreamStatus] = useState("live");
 
   if (!data || !data.categories || !data.matches) {
     return <div className="sb sb--empty">Нет данных</div>;
@@ -34,9 +34,11 @@ export default function SportsBrowser({ data, className = "" }) {
 
   // нормализация строки для поиска
   const norm = (s = "") =>
-    s.toString().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
-
-  
+    s
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "");
 
   // const statusLive = useMemo(()=> {
   //   const filtredStreams = data.matches.filter((m) => m.status === streamStatus)
@@ -46,34 +48,40 @@ export default function SportsBrowser({ data, className = "" }) {
   const filtered = useMemo(() => {
     const q = norm(query);
     const filterStatus = data.matches.filter((m) => m.status === streamStatus);
-    const filterCategory = filterStatus.filter((m) => (activeCat ? m.category_id === activeCat || activeCat === 'all' : true))
+    const filterCategory = filterStatus.filter((m) =>
+      activeCat ? m.category_id === activeCat || activeCat === "all" : true
+    );
     const filterQuery = filterCategory.filter((m) => {
-        if (!q) return true;
-        const hay =
-          norm(m.league) +
-          " " +
-          norm(m.home?.name) +
-          " " +
-          norm(m.away?.name) +
-          " " +
-          norm(m.country) +
-          " " +
-          norm(m.format ?? "");
-        return hay.includes(q);
-      })
-    return filterQuery.sort((a, b) => (a.kickoff_local || "").localeCompare(b.kickoff_local));
+      if (!q) return true;
+      const hay =
+        norm(m.league) +
+        " " +
+        norm(m.home?.name) +
+        " " +
+        norm(m.away?.name) +
+        " " +
+        norm(m.country) +
+        " " +
+        norm(m.format ?? "");
+      return hay.includes(q);
+    });
+    return filterQuery.sort((a, b) =>
+      (a.kickoff_local || "").localeCompare(b.kickoff_local)
+    );
   }, [query, data.matches, streamStatus, activeCat]);
 
-  const sportCategories = useMemo(()=> {
+  const sportCategories = useMemo(() => {
     const set = new Set();
-    const filtredStreams = data.matches.filter((m) => m.status === streamStatus)
-    for (const m of filtredStreams) set.add(m.category_id)
-    return data.categories.filter((c) => set.has(c.id))
+    const filtredStreams = data.matches.filter(
+      (m) => m.status === streamStatus
+    );
+    for (const m of filtredStreams) set.add(m.category_id);
+    return data.categories.filter((c) => set.has(c.id));
   }, [data, streamStatus]);
 
   const statsByCat = useMemo(() => {
     const map = new Map();
-    map.set('all', filtered.length)
+    map.set("all", filtered.length);
     for (const c of sportCategories) map.set(c.id, 0);
     for (const m of filtered) {
       map.set(m.category_id, (map.get(m.category_id) ?? 0) + 1);
@@ -83,92 +91,117 @@ export default function SportsBrowser({ data, className = "" }) {
 
   return (
     <div className={`sb ${className}`}>
-      <div className='sb__header'>
-        <button 
-          className={streamStatus === 'live' ? 'active' : ''}
-          data-focustab={'live'}
-          onClick={() => setStreamStatus('live')}
+      <div className="sb__header">
+        <button
+          className={streamStatus === "live" ? "active" : ""}
+          data-focustab={"live"}
+          onClick={() => setStreamStatus("live")}
         >
-          <div className='circle'></div>
+          <div className="circle"></div>
           <div>Live</div>
         </button>
-        <div className='vertical-line'></div>
-        <button 
-          className={streamStatus === 'scheduled' ? 'active' : ''} 
-          data-focustab={'scheduled'} 
-          onClick={() => setStreamStatus('scheduled')}
+        <div className="vertical-line"></div>
+        <button
+          className={streamStatus === "scheduled" ? "active" : ""}
+          data-focustab={"scheduled"}
+          onClick={() => setStreamStatus("scheduled")}
         >
-          <div className='circle'></div>
+          <div className="circle"></div>
           <div>Next</div>
         </button>
       </div>
 
       <label className="sb__search" aria-label="Game search">
-          <svg viewBox="0 0 24 24" aria-hidden className="sb__search-ic">
-            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search: team, leage, country…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </label>
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="sb__search-ic">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
+        </svg>
+        <input
+          type="search"
+          placeholder="Search: team, leage, country…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </label>
 
       <div className="sb__bar">
         <div className="sb__tabs" role="tablist" aria-label="Sport category">
           <button
-              key={'all'}
-              role="tab"
-              aria-selected={activeCat === 'all'}
-              className={`sb__tab ${activeCat === 'all' ? "is-active" : ""}`}
-              onClick={() => setActiveCat('all')}
-              title={'All'}
-            >
-              <span className="sb__tab-count">{statsByCat.get('all') ?? 0}</span>
-              <span className="sb__tab-name">All</span>
-            </button>
-          {sportCategories.map((c) => (
-            <button
-              key={c.id}
-              role="tab"
-              aria-selected={activeCat === c.id}
-              className={`sb__tab ${activeCat === c.id ? "is-active" : ""}`}
-              onClick={() => setActiveCat(c.id)}
-              title={c.name}
-            >
-              <span className="sb__tab-count">{statsByCat.get(c.id) ?? 0}</span>
-              <span className="sb__tab-name">
-                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-                  <use href={`/icons.svg#sports_${getCategoryIcon(c.slug)}`}></use>
-                </svg>
-              </span>
-            </button>
-          ))}
+            key={"all"}
+            role="tab"
+            aria-selected={activeCat === "all"}
+            className={`sb__tab ${activeCat === "all" ? "is-active" : ""}`}
+            onClick={() => setActiveCat("all")}
+            title={"All"}
+          >
+            <span className="sb__tab-count">{statsByCat.get("all") ?? 0}</span>
+            <span className="sb__tab-name">All</span>
+          </button>
+          {sportCategories.map((c) => {
+            const iconId = getCategoryIcon(c.slug);
+            return (
+              <button
+                key={c.id}
+                role="tab"
+                aria-selected={activeCat === c.id}
+                className={`sb__tab ${activeCat === c.id ? "is-active" : ""}`}
+                onClick={() => setActiveCat(c.id)}
+                title={c.name}
+              >
+                <span className="sb__tab-count">
+                  {statsByCat.get(c.id) ?? 0}
+                </span>
+                <span className="sb__tab-name">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 32 32"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <use href={`/icons.svg#sports_${iconId}`}></use>
+                  </svg>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <ul className="sb__grid" aria-live="polite">
         {filtered.map((m) => (
-          <li key={m.id} className={`sb-card sb-card--${m.status}`}>
-            {/* <img src={m.home?.logo_url} alt="home-logo" className="sb-team__logo" loading="lazy" /> */}
-            <img src={'https://stream.prod.wisegaming.com/logos/2f7a593b6d791b0183e30a891676bd44.png'} alt="home-logo" className="sb-team__logo" loading="lazy" />
-            <div className='sb-card__match-detail'>
-              <span className='sb-card__match-detail_category'>{m.sport}</span>
-              <span className='sb-card__match-detail_time-league'>{m.kickoff_local} | {m.league}</span>
-              <span className='sb-card__match-detail_team'>
+          <li
+            key={m.id}
+            className={`sb-card sb-card--${m.status}`}
+            onClick={() => onStreamSelect && onStreamSelect(m)}
+            style={{ cursor: "pointer" }}
+            title="Нажмите для просмотра"
+          >
+            <img
+              src={
+                m.channel_logo || "https://via.placeholder.com/64x64?text=TV"
+              }
+              alt="channel-logo"
+              className="sb-team__logo"
+              loading="lazy"
+              onError={(e) => e.target.src = "https://via.placeholder.com/64x64?text=TV"}
+            />
+            <div className="sb-card__match-detail">
+              <span className="sb-card__match-detail_category">{m.sport}</span>
+              <span className="sb-card__match-detail_time-league">
+                {m.kickoff_local} | {m.league}
+              </span>
+              <span className="sb-card__match-detail_team">
                 <span>{m.home.name}</span>
-                <span>{m.away.name}</span>
               </span>
             </div>
-            {/* <img src={m.away?.logo_url} alt="away-logo" className="sb-team__logo" loading="lazy" /> */}
-            <img src={'https://stream.prod.wisegaming.com/logos/4adac0619ab89c05eaf9e946b9d6ac14.png'} alt="away-logo" className="sb-team__logo" loading="lazy" />            
           </li>
         ))}
       </ul>
 
       {filtered.length === 0 && (
-        <div className="sb__empty">Ничего не найдено. Попробуйте изменить запрос.</div>
+        <div className="sb__empty">
+          Ничего не найдено. Попробуйте изменить запрос.
+        </div>
       )}
     </div>
   );
