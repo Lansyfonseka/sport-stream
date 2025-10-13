@@ -17,8 +17,8 @@ return (
     <img src={Logo} alt="logo" />
   </div>
   <div className='s-header__menu'>
-    {menu.map(item => 
-      <a href={item.url} className='c-link' target='_blank'>
+    {menu.map((item, index) => 
+      <a key={index} href={item.url} className='c-link' target='_blank' rel="noopener noreferrer">
         <span className={'c-link__icon '+item.icon}></span>
         <span className='c-link__title'>{item.titel}</span>
       </a>

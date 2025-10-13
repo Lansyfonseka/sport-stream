@@ -1,8 +1,7 @@
-import './_player.scss';
+import "./_player.scss";
 // import { useState } from 'react';
 // import VideoJS from "./VideoJS";
 // import "video.js/dist/video-js.css";
-
 
 // export default function Player() {
 //   const [srcIndex, setSrcIndex] = useState(0);
@@ -42,14 +41,14 @@ import './_player.scss';
 //   );
 // }
 
-import { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
+import { useEffect, useRef } from "react";
+import Hls from "hls.js";
 
-const urlStream = 'https://content.jwplatform.com/manifests/yp342SRmf.m3u8'
+const urlStream = "https://content.jwplatform.com/manifests/yp342SRmf.m3u8";
 
 export default function HlsPlayer({
   src,
-  className = "",         // сюда передаём ваш класс с размерами
+  className = "",
   controls = true,
   autoPlay = false,
   muted = true,
@@ -81,7 +80,9 @@ export default function HlsPlayer({
       if (video) {
         video.pause();
         video.removeAttribute("src");
-        try { video.load(); } catch {}
+        try {
+          video.load();
+        } catch {}
       }
     };
   }, [src, hlsConfig]);
