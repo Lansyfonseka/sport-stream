@@ -15,6 +15,7 @@ import { useIPTVData } from "./hooks/useIPTVData";
 
 export default function App(){
   const { data, loading, error } = useIPTVData();
+  console.log(data)
   const [selectedStream, setSelectedStream] = useState(
     "https://cf.1anonsports.online/x/17417718.m3u8"
   );
@@ -33,15 +34,14 @@ return (
     <Channels/>
     <AdBanner link='https://heylink.me/nextbet7/' imgUrl={AdBannerImg}/>
     {/* <img src={AdBanner} alt='Ad banner' className='s-ad'/> */}
-    <Player 
-    src="https://cf.1anonsports.online/x/17417718.m3u8"
-    className="hls-player--fluid"
-    />
+    <Player src={selectedStream} className="hls-player--fluid" />
+
     {loading && <div className="loading">Загрузка каналов...</div>}
-        {error && <div className="error">Ошибка загрузки: {error}</div>}
-        {data && (
-          <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
-        )}
+    {error && <div className="error">Ошибка загрузки: {error}</div>}
+    {data && (
+      <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
+    )}
+    
     <AdBanner link='https://heylink.me/nextbet7/' imgUrl={AdBannerImg}/>
     <h1 className='h1'>מבצעים</h1>
     <Offers/>

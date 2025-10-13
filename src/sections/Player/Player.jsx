@@ -1,5 +1,5 @@
 import "./_player.scss";
-
+import ErrorLoadMedia from '../../assets/error-loading-media.webp';
 import { useEffect, useRef } from "react";
 import Hls from "hls.js";
 
@@ -7,10 +7,10 @@ export default function HlsPlayer({
   src,
   className = "",
   controls = true,
-  autoPlay = false,
+  autoPlay = true,
   muted = true,
   loop = false,
-  poster,
+  poster = ErrorLoadMedia,
   playsInline = true,
   hlsConfig,
   videoProps = {},

@@ -1,6 +1,0 @@
-@use '../../styles/abstracts/variables' as *;
-@use '../../styles/abstracts/mixins' as *;
-.c-ticker{ border-block:1px solid $color-border; background:#0b1330 }
-.c-ticker__track{ @include container(xl); display:flex; gap:1.5rem; overflow:auto; padding:.5rem 0; scrollbar-width:none }
-.c-ticker__item{ white-space:nowrap; color:$color-muted }
-.c-ticker__item b{ color:$color-accent }
