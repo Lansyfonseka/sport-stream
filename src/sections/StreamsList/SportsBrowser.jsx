@@ -106,53 +106,64 @@ export default function SportsBrowser({
           data-focustab={"scheduled"}
           onClick={() => setStreamStatus("scheduled")}
         >
-          <div className='circle'></div>
+          <div className="circle"></div>
           <div>ישודרו</div>
         </button>
       </div>
 
       <label className="sb__search" aria-label="Game search">
-          <svg viewBox="0 0 24 24" aria-hidden className="sb__search-ic">
-            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
-          </svg>
-          <input
-            type="search"
-            placeholder="משחקים חיים: חפש קבוצה או ליגה..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </label>
-
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="sb__search-ic">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
+        </svg>
+        <input
+          type="search"
+          placeholder="משחקים חיים: חפש קבוצה או ליגה..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </label>
+{/* הכל */}
       <div className="sb__bar">
         <div className="sb__tabs" role="tablist" aria-label="Sport category">
           <button
-              key={'all'}
-              role="tab"
-              aria-selected={activeCat === 'all'}
-              className={`sb__tab ${activeCat === 'all' ? "is-active" : ""}`}
-              onClick={() => setActiveCat('all')}
-              title={'All'}
-            >
-              <span className="sb__tab-count">{statsByCat.get('all') ?? 0}</span>
-              <span className="sb__tab-name">הכל</span>
-            </button>
-          {sportCategories.map((c) => (
-            <button
-              key={c.id}
-              role="tab"
-              aria-selected={activeCat === c.id}
-              className={`sb__tab ${activeCat === c.id ? "is-active" : ""}`}
-              onClick={() => setActiveCat(c.id)}
-              title={c.name}
-            >
-              <span className="sb__tab-count">{statsByCat.get(c.id) ?? 0}</span>
-              <span className="sb__tab-name">
-                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
-                  <use href={`/icons.svg#sports_${getCategoryIcon(c.slug)}`}></use>
-                </svg>
-              </span>
-            </button>
-          ))}
+
+            role="tab"
+            aria-selected={activeCat === "all"}
+            className={`sb__tab ${activeCat === "all" ? "is-active" : ""}`}
+            onClick={() => setActiveCat("all")}
+            title={"All"}
+          >
+            <span className="sb__tab-count">{statsByCat.get("all") ?? 0}</span>
+            <span className="sb__tab-name">הכל</span>
+          </button>
+          {sportCategories.map((c) => {
+            const iconId = getCategoryIcon(c.slug);
+            return (
+              <button
+                key={c.id}
+                role="tab"
+                aria-selected={activeCat === c.id}
+                className={`sb__tab ${activeCat === c.id ? "is-active" : ""}`}
+                onClick={() => setActiveCat(c.id)}
+                title={c.name}
+              >
+                <span className="sb__tab-count">
+                  {statsByCat.get(c.id) ?? 0}
+                </span>
+                <span className="sb__tab-name">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 32 32"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <use href={`/icons.svg#sports_${iconId}`}></use>
+                  </svg>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

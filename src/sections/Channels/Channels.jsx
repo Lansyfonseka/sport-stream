@@ -33,38 +33,57 @@ export default function Channels() {
   const nextRef = useRef(null);
 
   const [swiperRef, setSwiperRef] = useState(null);
-  const slidesPerView = channels.length > 5 ? 5 : channels.length-1;
+  const slidesPerView = channels.length > 5 ? 5 : channels.length - 1;
   const spaceBetween = 10;
 
-return (
-<div className="s-channels">
-  <button ref={prevRef} className="s-channels__button" style={{display: 'block'}}>{leftArrow}</button>  
-  <Swiper
-    onSwiper={setSwiperRef}
-    slidesPerView={slidesPerView}
-    centeredSlides={false}
-    spaceBetween={spaceBetween}
-    loop={true}
-    watchSlidesProgress={false}
-    modules={[Navigation, Pagination]}
-    className="mySwiper"
-    onInit={(swiper) => {
-      swiper.params.navigation.prevEl = prevRef.current;
-      swiper.params.navigation.nextEl = nextRef.current;
-      swiper.navigation.update();
-    }}
-    navigation={{
-      prevEl: prevRef.current,
-      nextEl: nextRef.current,
-    }}
-  >
-    {channels.map(item => 
-    <SwiperSlide className='s-channels__item' style={{width: `calc((100% - ${slidesPerView-1}*${spaceBetween}px)/${slidesPerView})`}}>
-      <img src={item.channelLogo} alt={item.channelName}></img>
-    </SwiperSlide>
-    )}
-  </Swiper>
-  <button ref={nextRef} className="s-channels__button" style={{display: 'block'}}>{rightArrow}</button>
-</div>
-)
+  return (
+    <section className="s-channels">
+      <button
+        ref={prevRef}
+        className="s-channels__button"
+        style={{ display: "block" }}
+      >
+        {leftArrow}
+      </button>
+      <Swiper
+        onSwiper={setSwiperRef}
+        slidesPerView={slidesPerView}
+        centeredSlides={false}
+        spaceBetween={spaceBetween}
+        loop={true}
+        watchSlidesProgress={false}
+        modules={[Navigation, Pagination]}
+        className="mySwiper"
+        onInit={(swiper) => {
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.params.navigation.nextEl = nextRef.current;
+          swiper.navigation.update();
+        }}
+        navigation={{
+          prevEl: prevRef.current,
+          nextEl: nextRef.current,
+        }}
+      >
+        {channels.map((item) => (
+          <SwiperSlide
+            className="s-channels__item"
+            style={{
+              width: `calc((100% - ${
+                slidesPerView - 1
+              }*${spaceBetween}px)/${slidesPerView})`,
+            }}
+          >
+            <img src={item.channelLogo} alt={item.channelName}></img>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <button
+        ref={nextRef}
+        className="s-channels__button"
+        style={{ display: "block" }}
+      >
+        {rightArrow}
+      </button>
+    </section>
+  );
 }

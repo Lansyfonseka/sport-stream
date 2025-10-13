@@ -77,7 +77,7 @@ export default function GlobalContextMenu({
       document.removeEventListener("wheel", onWheel);
       window.removeEventListener("resize", onResize);
     };
-  }, [open, focusIndex, items]);
+  }, [open, focusIndex]);
 
   // Автопозиционирование
   useLayoutEffect(() => {
@@ -106,7 +106,7 @@ export default function GlobalContextMenu({
     return () => document.removeEventListener("contextmenu", save, { capture: true });
   }, []);
 
-  const list = useMemo(() => resolveItems(items), [items, open]);
+  // const list = useMemo(() => resolveItems(items), [items, open]);
 
   // Рендер порталом
   return open
