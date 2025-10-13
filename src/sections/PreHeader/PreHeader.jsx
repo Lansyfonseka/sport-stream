@@ -10,7 +10,7 @@ export default function PreHeader(){
 return (
 <div className="s-preHeader" role="contentinfo">
   <div className='s-preHeader__link'>
-    Our current address:
+    הכתובת העדכנית שלנו: 
     <a href="https://nextbet7.net/" target="_blank" rel="noopener">https://nextbet7.net/</a>
   </div>
   <div className='s-preHeader__social'>

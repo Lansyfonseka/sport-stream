@@ -34,10 +34,10 @@ export default function Channels(){
 
   const [swiperRef, setSwiperRef] = useState(null);
   const slidesPerView = channels.length > 5 ? 5 : channels.length-1;
-  const spaceBetween = 30;
+  const spaceBetween = 10;
 
 return (
-<section className="s-channels">
+<div className="s-channels">
   <button ref={prevRef} className="s-channels__button" style={{display: 'block'}}>{leftArrow}</button>  
   <Swiper
     onSwiper={setSwiperRef}
@@ -65,6 +65,6 @@ return (
     )}
   </Swiper>
   <button ref={nextRef} className="s-channels__button" style={{display: 'block'}}>{rightArrow}</button>
-</section>
+</div>
 )
 }

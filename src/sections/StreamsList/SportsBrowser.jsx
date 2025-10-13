@@ -90,7 +90,7 @@ export default function SportsBrowser({ data, className = "" }) {
           onClick={() => setStreamStatus('live')}
         >
           <div className='circle'></div>
-          <div>Live</div>
+          <div>חי</div>
         </button>
         <div className='vertical-line'></div>
         <button 
@@ -99,7 +99,7 @@ export default function SportsBrowser({ data, className = "" }) {
           onClick={() => setStreamStatus('scheduled')}
         >
           <div className='circle'></div>
-          <div>Next</div>
+          <div>ישודרו</div>
         </button>
       </div>
 
@@ -109,7 +109,7 @@ export default function SportsBrowser({ data, className = "" }) {
           </svg>
           <input
             type="search"
-            placeholder="Search: team, leage, country…"
+            placeholder="משחקים חיים: חפש קבוצה או ליגה..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -126,7 +126,7 @@ export default function SportsBrowser({ data, className = "" }) {
               title={'All'}
             >
               <span className="sb__tab-count">{statsByCat.get('all') ?? 0}</span>
-              <span className="sb__tab-name">All</span>
+              <span className="sb__tab-name">הכל</span>
             </button>
           {sportCategories.map((c) => (
             <button

@@ -4,11 +4,11 @@ import './_header.scss'
 export default function Header(){
 
   const menu = [
-    {titel: 'Live betting', icon: "boll", url: 'https://heylink.me/nextbet7/'},
-    {titel: 'E-sports', icon: "rocket", url: 'https://heylink.me/nextbet7/'},
-    {titel: 'Specials', icon: "coins", url: 'https://heylink.me/nextbet7/'},
-    {titel: 'Telegram', icon: "diamond", url: 'https://heylink.me/nextbet7/'},
-    {titel: 'WhatsApp', icon: "cash", url: 'https://heylink.me/nextbet7/'}
+    {titel: 'הימורים בשידור חי', icon: "boll", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'ספורט אלקטרוני', icon: "rocket", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'מבצעים', icon: "coins", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'ערוץ מבצעים - טלגרם', icon: "diamond", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'ווטסאפ - הרשמה 24/7', icon: "cash", url: 'https://heylink.me/nextbet7/'}
   ]
 
 return (

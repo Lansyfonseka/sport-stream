@@ -10,10 +10,15 @@ import data from "./test/test-matches-from-screenshot-extended-with-categories.j
 import Banner from './components/Banner/Banner'
 import AdBanner from './components/AdBanner/AdBanner'
 import Offers from './sections/Offers/Offers'
-import RtlMenu from './components/RtlMenu/RtlMenu'
-import Demo from './components/RtlMenu/Demo'
+import GlobalContextMenu from './components/GlobalContextMenu/GlobalContextMenu'
 
 export default function App(){
+   const items = [
+    { id: "reload", label: "Reload", onSelect: () => location.reload() },
+    { id: "copy-url", label: "Copy page URL", onSelect: () => navigator.clipboard.writeText(location.href) },
+    { divider: true },
+    { id: "inspect", label: "Open DevTools (hint)", onSelect: () => alert("Press F12 🙂") },
+  ];
 return (
 <>
   <PreHeader/>
@@ -31,7 +36,10 @@ return (
     <h1 className='h1'>מבצעים</h1>
     <Offers/>
     {/* <RtlMenu/> */}
-    <Demo/>
+    <GlobalContextMenu
+        items={items}
+        disableOnSelectors={["input", "textarea", "[contenteditable=true]", ".allow-native-menu"]}
+      />
     {/* <Banner side='left'/>
     <Banner side='right'/> */}
   {/* <Hero />
