@@ -1,4 +1,4 @@
-import './_AdBanner.scss';
+import './_adBanner.scss';
 
 export default function AdBanner({imgUrl, link}) {
 
