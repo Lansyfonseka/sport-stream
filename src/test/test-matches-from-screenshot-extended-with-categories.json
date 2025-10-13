@@ -86,7 +86,7 @@
       "sport": "Football",
       "league": "Belarus 1. Liga",
       "country": "Belarus",
-      "status": "scheduled",
+      "status": "live",
       "format": null,
       "kickoff_local": "14:00",
       "home": {
@@ -122,7 +122,7 @@
       "sport": "Tennis",
       "league": "Russia 2 Liga Division B, Group",
       "country": "Russia",
-      "status": "scheduled",
+      "status": "live",
       "format": null,
       "kickoff_local": "14:00",
       "home": {
@@ -173,10 +173,10 @@
     },
     {
       "id": "d33a3685-eb4a-4ce4-a831-0a1dc9ac750e",
-      "sport": "Football",
+      "sport": "Esports",
       "league": "Short Football 2x2",
       "country": "International",
-      "status": "scheduled",
+      "status": "live",
       "format": "2x2",
       "kickoff_local": "15:53",
       "home": {
@@ -187,7 +187,7 @@
         "name": "Concordia (2x2)",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "cat-esports"
     },
     {
       "id": "b04e3705-a021-4c34-b181-a03ba2d1611a",
@@ -209,7 +209,7 @@
     },
     {
       "id": "f3c47702-dfee-411b-a127-b25dc465e2d9",
-      "sport": "Football",
+      "sport": "Esports",
       "league": "Short Football 4x4",
       "country": "International",
       "status": "scheduled",
@@ -223,7 +223,7 @@
         "name": "Citadel (4x4)",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "cat-esports"
     },
     {
       "id": "fa5ba0b3-3d4e-408a-b301-dfd2654675dc",
@@ -317,7 +317,7 @@
     },
     {
       "id": "5fd2583b-0bd0-4530-aa8a-d5aa636b19d3",
-      "sport": "Football",
+      "sport": "Esports",
       "league": "Turkey TFF 2. Lig",
       "country": "Turkey",
       "status": "scheduled",
@@ -331,7 +331,7 @@
         "name": "Yeni Malatyaspor",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "cat-esports"
     },
     {
       "id": "38318a1c-8bd6-4601-9992-b2954f7bb7ff",
@@ -403,7 +403,7 @@
         "name": "Osaka+",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "table-tennis"
     },
     {
       "id": "696ab6c8-16e6-494b-ace2-d7ac8378ca33",
@@ -439,7 +439,7 @@
         "name": "ROCKET",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "cat-icehockey"
     },
     {
       "id": "ca313741-8041-4aad-90a4-bfc7d5a6d611",
@@ -493,7 +493,7 @@
         "name": "Tabasalu",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "cat-icehockey"
     },
     {
       "id": "8d208706-ba2f-486b-bc17-0cba9ac8c3f0",
@@ -529,7 +529,7 @@
         "name": "Beykoz İshaklı",
         "logo_url": null
       },
-      "category_id": "cat-football"
+      "category_id": "table-tennis"
     }
   ]
 }

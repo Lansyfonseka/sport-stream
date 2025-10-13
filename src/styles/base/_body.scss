@@ -7,3 +7,11 @@ body {
   max-width: $width-max;
   font-family: $font-main;
 }
+
+.h1 {
+  font-size: 2em;
+  text-align: center;
+  margin: .5em 0;
+  color: $color-white;
+  font-weight: bold;
+}

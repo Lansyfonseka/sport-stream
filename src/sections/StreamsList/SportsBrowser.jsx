@@ -26,6 +26,7 @@ export default function SportsBrowser({ data, className = "" }) {
     data?.categories?.[0]?.id ?? null
   );
   const [query, setQuery] = useState("");
+  const [streamStatus, setStreamStatus] = useState('live');
 
   if (!data || !data.categories || !data.matches) {
     return <div className="sb sb--empty">Нет данных</div>;
@@ -35,19 +36,17 @@ export default function SportsBrowser({ data, className = "" }) {
   const norm = (s = "") =>
     s.toString().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
-  const statsByCat = useMemo(() => {
-    const map = new Map();
-    map.set('all', data.matches.length)
-    for (const c of data.categories) map.set(c.id, 0);
-    for (const m of data.matches) {
-      map.set(m.category_id, (map.get(m.category_id) ?? 0) + 1);
-    }
-    return map;
-  }, [data]);
+  
+
+  // const statusLive = useMemo(()=> {
+  //   const filtredStreams = data.matches.filter((m) => m.status === streamStatus)
+  //   return filtredStreams
+  // }, [data.matches, streamStatus])
 
   const filtered = useMemo(() => {
     const q = norm(query);
-    const filterCategory = data.matches.filter((m) => (activeCat ? m.category_id === activeCat || activeCat === 'all' : true))
+    const filterStatus = data.matches.filter((m) => m.status === streamStatus);
+    const filterCategory = filterStatus.filter((m) => (activeCat ? m.category_id === activeCat || activeCat === 'all' : true))
     const filterQuery = filterCategory.filter((m) => {
         if (!q) return true;
         const hay =
@@ -63,10 +62,47 @@ export default function SportsBrowser({ data, className = "" }) {
         return hay.includes(q);
       })
     return filterQuery.sort((a, b) => (a.kickoff_local || "").localeCompare(b.kickoff_local));
-  }, [data, activeCat, query]);
+  }, [query, data.matches, streamStatus, activeCat]);
+
+  const sportCategories = useMemo(()=> {
+    const set = new Set();
+    const filtredStreams = data.matches.filter((m) => m.status === streamStatus)
+    for (const m of filtredStreams) set.add(m.category_id)
+    return data.categories.filter((c) => set.has(c.id))
+  }, [data, streamStatus]);
+
+  const statsByCat = useMemo(() => {
+    const map = new Map();
+    map.set('all', filtered.length)
+    for (const c of sportCategories) map.set(c.id, 0);
+    for (const m of filtered) {
+      map.set(m.category_id, (map.get(m.category_id) ?? 0) + 1);
+    }
+    return map;
+  }, [filtered, sportCategories]);
 
   return (
     <div className={`sb ${className}`}>
+      <div className='sb__header'>
+        <button 
+          className={streamStatus === 'live' ? 'active' : ''}
+          data-focustab={'live'}
+          onClick={() => setStreamStatus('live')}
+        >
+          <div className='circle'></div>
+          <div>Live</div>
+        </button>
+        <div className='vertical-line'></div>
+        <button 
+          className={streamStatus === 'scheduled' ? 'active' : ''} 
+          data-focustab={'scheduled'} 
+          onClick={() => setStreamStatus('scheduled')}
+        >
+          <div className='circle'></div>
+          <div>Next</div>
+        </button>
+      </div>
+
       <label className="sb__search" aria-label="Game search">
           <svg viewBox="0 0 24 24" aria-hidden className="sb__search-ic">
             <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
@@ -78,7 +114,7 @@ export default function SportsBrowser({ data, className = "" }) {
             onChange={(e) => setQuery(e.target.value)}
           />
         </label>
-      {/* Header */}
+
       <div className="sb__bar">
         <div className="sb__tabs" role="tablist" aria-label="Sport category">
           <button
@@ -92,7 +128,7 @@ export default function SportsBrowser({ data, className = "" }) {
               <span className="sb__tab-count">{statsByCat.get('all') ?? 0}</span>
               <span className="sb__tab-name">All</span>
             </button>
-          {data.categories.map((c) => (
+          {sportCategories.map((c) => (
             <button
               key={c.id}
               role="tab"
@@ -110,11 +146,8 @@ export default function SportsBrowser({ data, className = "" }) {
             </button>
           ))}
         </div>
-
-        
       </div>
 
-      {/* Grid */}
       <ul className="sb__grid" aria-live="polite">
         {filtered.map((m) => (
           <li key={m.id} className={`sb-card sb-card--${m.status}`}>

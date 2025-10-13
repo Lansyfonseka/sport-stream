@@ -1,0 +1,39 @@
+.cmenu {
+  --bg: #111830;
+  --br: #253055;
+  --txt: #e8eaf2;
+  --muted: #a9b1c7;
+  --hover: #1a2446;
+
+  min-width: 180px;
+  background: var(--bg);
+  color: var(--txt);
+  border: 1px solid var(--br);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+  padding: 6px;
+  z-index: 9999;
+}
+
+.cmenu__item {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  background: transparent;
+  color: var(--txt);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+
+  &:hover, &[data-focus="true"] { background: var(--hover); }
+  &.is-disabled { color: var(--muted); cursor: not-allowed; }
+}
+
+.cmenu__divider {
+  height: 1px; background: var(--br);
+  margin: 6px 4px;
+}

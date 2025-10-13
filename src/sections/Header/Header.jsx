@@ -4,11 +4,11 @@ import './_header.scss'
 export default function Header(){
 
   const menu = [
-    {titel: 'Live betting', icon: "boll", url: ''},
-    {titel: 'E-sports', icon: "rocket", url: ''},
-    {titel: 'Specials', icon: "coins", url: ''},
-    {titel: 'Telegram', icon: "diamond", url: ''},
-    {titel: 'WhatsApp', icon: "cash", url: ''}
+    {titel: 'Live betting', icon: "boll", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'E-sports', icon: "rocket", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'Specials', icon: "coins", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'Telegram', icon: "diamond", url: 'https://heylink.me/nextbet7/'},
+    {titel: 'WhatsApp', icon: "cash", url: 'https://heylink.me/nextbet7/'}
   ]
 
 return (
@@ -18,7 +18,7 @@ return (
   </div>
   <div className='s-header__menu'>
     {menu.map(item => 
-      <a href={item.url} className='c-link'>
+      <a href={item.url} className='c-link' target='_blank'>
         <span className={'c-link__icon '+item.icon}></span>
         <span className='c-link__title'>{item.titel}</span>
       </a>
