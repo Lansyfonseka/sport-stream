@@ -97,7 +97,7 @@ export default function SportsBrowser({
           data-focustab={"live"}
           onClick={() => setStreamStatus("live")}
         >
-          <div className='circle'></div>
+          <div className="circle"></div>
           <div>חי</div>
         </button>
         <div className="vertical-line"></div>
@@ -112,7 +112,7 @@ export default function SportsBrowser({
       </div>
 
       <label className="sb__search" aria-label="Game search">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="sb__search-ic">
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="sb__search-ic">
           <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20l-6-6zM4 9.5C4 6.46 6.46 4 9.5 4S15 6.46 15 9.5 12.54 15 9.5 15 4 12.54 4 9.5Z" />
         </svg>
         <input
@@ -122,11 +122,10 @@ export default function SportsBrowser({
           onChange={(e) => setQuery(e.target.value)}
         />
       </label>
-{/* הכל */}
+      {/* הכל */}
       <div className="sb__bar">
         <div className="sb__tabs" role="tablist" aria-label="Sport category">
           <button
-
             role="tab"
             aria-selected={activeCat === "all"}
             className={`sb__tab ${activeCat === "all" ? "is-active" : ""}`}
@@ -183,7 +182,9 @@ export default function SportsBrowser({
               alt="channel-logo"
               className="sb-team__logo"
               loading="lazy"
-              onError={(e) => e.target.src = "https://via.placeholder.com/64x64?text=TV"}
+              onError={(e) =>
+                (e.target.src = "https://via.placeholder.com/64x64?text=TV")
+              }
             />
             <div className="sb-card__match-detail">
               <span className="sb-card__match-detail_category">{m.sport}</span>
