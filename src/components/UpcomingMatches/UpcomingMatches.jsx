@@ -55,34 +55,34 @@ export default function UpcomingMatches({ matches }) {
               <div className="match-card__time">
                 {match.date} {match.kickoff_local}
               </div>
-              
+
               <div className="match-card__title">
                 {match.home.name}-{match.away.name}
               </div>
-              
+
               <div className="match-card__teams">
                 <div className="match-card__team">
                   {match.home.logo_url ? (
-                    <img 
-                      src={match.home.logo_url} 
+                    <img
+                      src={match.home.logo_url}
                       alt={match.home.name}
                       className="match-card__flag"
-                      onError={(e) => e.target.style.display = 'none'}
+                      onError={(e) => (e.target.style.display = "none")}
                     />
                   ) : (
                     <div className="match-card__flag-placeholder"></div>
                   )}
                 </div>
-                
+
                 <div className="match-card__separator">-</div>
-                
+
                 <div className="match-card__team">
                   {match.away.logo_url ? (
-                    <img 
-                      src={match.away.logo_url} 
+                    <img
+                      src={match.away.logo_url}
                       alt={match.away.name}
                       className="match-card__flag"
-                      onError={(e) => e.target.style.display = 'none'}
+                      onError={(e) => (e.target.style.display = "none")}
                     />
                   ) : (
                     <div className="match-card__flag-placeholder"></div>

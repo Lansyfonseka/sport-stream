@@ -24,10 +24,9 @@
     }
   }
   .s-preHeader__social {
-    line-height: 1;
-    .s-preHeader__social_icon:not(:first-child) {
-      margin-left: 1em;
-    }
+    display: flex;
+    gap: 5px;
+    padding-left: 5px;
     svg {
         width: 1em;
         height: 1em;

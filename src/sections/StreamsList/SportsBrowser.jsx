@@ -171,21 +171,37 @@ export default function SportsBrowser({
           <li
             key={m.id}
             className={`sb-card sb-card--${m.status}`}
-            onClick={() => m.status === "live" && onStreamSelect && onStreamSelect(m)}
+            onClick={() =>
+              m.status === "live" && onStreamSelect && onStreamSelect(m)
+            }
             style={{ cursor: m.status === "live" ? "pointer" : "default" }}
-            title={m.status === "live" ? "Нажмите для просмотра" : "Запланированный матч"}
+            title={m.status === "live" ? "לחץ לצפייה" : "משחק מתוכנן"}
           >
-            <img
-              src={
-                m.channel_logo || "https://via.placeholder.com/64x64?text=TV"
-              }
-              alt="channel-logo"
-              className="sb-team__logo"
-              loading="lazy"
-              onError={(e) =>
-                (e.target.src = "https://via.placeholder.com/64x64?text=TV")
-              }
-            />
+            {m.status === "scheduled" ? (
+              <img
+                src={
+                  m.home.logo_url || "https://via.placeholder.com/64x64?text=H"
+                }
+                alt={m.home.name}
+                className="sb-team__logo"
+                loading="lazy"
+                onError={(e) =>
+                  (e.target.src = "https://via.placeholder.com/64x64?text=H")
+                }
+              />
+            ) : (
+              <img
+                src={
+                  m.channel_logo || "https://via.placeholder.com/64x64?text=TV"
+                }
+                alt="channel-logo"
+                className="sb-team__logo"
+                loading="lazy"
+                onError={(e) =>
+                  (e.target.src = "https://via.placeholder.com/64x64?text=TV")
+                }
+              />
+            )}
             <div className="sb-card__match-detail">
               <span className="sb-card__match-detail_category">{m.sport}</span>
               <span className="sb-card__match-detail_time-league">
@@ -193,8 +209,24 @@ export default function SportsBrowser({
               </span>
               <span className="sb-card__match-detail_team">
                 <span>{m.home.name}</span>
+                {m.status === "scheduled" && m.away.name && (
+                  <span> {m.away.name}</span>
+                )}
               </span>
             </div>
+            {m.status === "scheduled" && (
+              <img
+                src={
+                  m.away.logo_url || "https://via.placeholder.com/64x64?text=A"
+                }
+                alt={m.away.name}
+                className="sb-team__logo"
+                loading="lazy"
+                onError={(e) =>
+                  (e.target.src = "https://via.placeholder.com/64x64?text=A")
+                }
+              />
+            )}
           </li>
         ))}
       </ul>

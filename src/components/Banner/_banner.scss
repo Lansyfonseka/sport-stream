@@ -33,9 +33,25 @@
 }
 
 .c-banner.right {
-  right: 55px;
+  right: 25px;
 }
 
 .c-banner.left {
-  left: 55px;
+  left: 25px;
+}
+
+@media screen and (max-width: 1565px) {
+.c-banner.right {
+  right: 10px;
+}
+
+.c-banner.left {
+  left: 10px;
+}
+}
+
+@media screen and (max-width: 1200px) {
+.c-banner {
+  display: none !important;
+}
 }

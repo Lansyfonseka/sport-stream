@@ -18,7 +18,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: -1em;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px 0;
   }
 }
 
@@ -54,5 +56,12 @@
   }
   .cash::before {
     content: "\f0d6";
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .s-header {
+    flex-direction: column;
+    gap: 30px;
   }
 }
