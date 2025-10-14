@@ -12,6 +12,7 @@ import AdBanner from "./components/AdBanner/AdBanner";
 import Offers from "./sections/Offers/Offers";
 import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu";
 import EmbeddedStream from "./components/EmbeddedStream/EmbeddedStream";
+import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches";
 import { useIPTVData } from "./hooks/useIPTVData";
 
 export default function App() {
@@ -64,7 +65,12 @@ export default function App() {
         {loading && <div className="loading">טוען ערוצים...</div>}
         {error && <div className="error">שגיאת טעינה: {error}</div>}
         {data && (
-          <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
+          <>
+            <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
+            {data.scheduledMatches && data.scheduledMatches.length > 0 && (
+              <UpcomingMatches matches={data.scheduledMatches} />
+            )}
+          </>
         )}
 
         <AdBanner link="https://heylink.me/nextbet7/" imgUrl={AdBannerImg} />
