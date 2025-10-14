@@ -1,6 +1,6 @@
 import "./_embedded-stream.scss";
 
-export default function EmbeddedStream({ src }) {
+export default function EmbeddedStream({ src, showLoader }) {
   return (
     <div className="embedded-stream">
       <iframe
@@ -10,6 +10,12 @@ export default function EmbeddedStream({ src }) {
         allowFullScreen
         scrolling="no"
       />
+      {showLoader && (
+        <div className="embedded-stream__loader">
+          <div className="embedded-stream__spinner"></div>
+          <p className="embedded-stream__loader-text">טוען ערוץ...</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import "./_channels.scss";
@@ -17,22 +17,52 @@ import ChannelOne2 from "../../assets/channels/One-2.png";
 import { leftArrow } from "../../assets/leftArrow";
 import { rightArrow } from "../../assets/rightArrow";
 
-export default function Channels() {
+export default function Channels({ onChannelSelect }) {
   const channels = [
-    { channelName: "Yes 1", channelLogo: ChannelYes1, url: "" },
-    { channelName: "Yes 2", channelLogo: ChannelYes2, url: "" },
-    { channelName: "One 1", channelLogo: ChannelOne1, url: "" },
-    { channelName: "One 2", channelLogo: ChannelOne2, url: "" },
-    { channelName: "Yes 3", channelLogo: ChannelYes3, url: "" },
-    { channelName: "Yes 4", channelLogo: ChannelYes4, url: "" },
-    { channelName: "Yes 1", channelLogo: ChannelYes1, url: "" },
-    { channelName: "Yes 5", channelLogo: ChannelYes5, url: "" },
+    {
+      channelName: "Yes 1",
+      channelLogo: ChannelYes1,
+      url: "https://nextbet7.tv/kanal-izle/yes1",
+    },
+    {
+      channelName: "Yes 2",
+      channelLogo: ChannelYes2,
+      url: "https://nextbet7.tv/kanal-izle/yes2",
+    },
+    {
+      channelName: "One 1",
+      channelLogo: ChannelOne1,
+      url: "https://nextbet7.tv/kanal-izle/one1",
+    },
+    {
+      channelName: "One 2",
+      channelLogo: ChannelOne2,
+      url: "https://nextbet7.tv/kanal-izle/one2",
+    },
+    {
+      channelName: "Yes 3",
+      channelLogo: ChannelYes3,
+      url: "https://nextbet7.tv/kanal-izle/yes3",
+    },
+    {
+      channelName: "Yes 4",
+      channelLogo: ChannelYes4,
+      url: "https://nextbet7.tv/kanal-izle/yes4",
+    },
+    // { channelName: "5 Live", channelLogo: ChannelYes1, url: "https://nextbet7.tv/kanal-izle/5live" },
+    {
+      channelName: "Yes 5",
+      channelLogo: ChannelYes5,
+      url: "https://nextbet7.tv/kanal-izle/yes5",
+    },
+    // { channelName: "5 Plus", channelLogo: ChannelYes1, url: "https://nextbet7.tv/kanal-izle/5plus" },
+    // { channelName: "5 Gold", channelLogo: ChannelYes1, url: "https://nextbet7.tv/kanal-izle/5gold" },
+    // { channelName: "5 Stars", channelLogo: ChannelYes1, url: "https://nextbet7.tv/kanal-izle/5stars" },
   ];
 
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
-  const [swiperRef, setSwiperRef] = useState(null);
   const slidesPerView = channels.length > 5 ? 5 : channels.length - 1;
   const spaceBetween = 10;
 
@@ -46,7 +76,6 @@ export default function Channels() {
         {leftArrow}
       </button>
       <Swiper
-        onSwiper={setSwiperRef}
         slidesPerView={slidesPerView}
         centeredSlides={false}
         spaceBetween={spaceBetween}
@@ -64,14 +93,17 @@ export default function Channels() {
           nextEl: nextRef.current,
         }}
       >
-        {channels.map((item) => (
+        {channels.map((item, index) => (
           <SwiperSlide
+            key={index}
             className="s-channels__item"
             style={{
               width: `calc((100% - ${
                 slidesPerView - 1
               }*${spaceBetween}px)/${slidesPerView})`,
+              cursor: "pointer",
             }}
+            onClick={() => onChannelSelect && onChannelSelect(item.url)}
           >
             <img src={item.channelLogo} alt={item.channelName}></img>
           </SwiperSlide>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./sections/Header/Header";
 import Footer from "./sections/Footer/Footer";
 import PreHeader from "./sections/PreHeader/PreHeader";
@@ -20,26 +20,49 @@ export default function App() {
   const [selectedStream, setSelectedStream] = useState(
     "https://cf.1anonsports.online/x/17417718.m3u8"
   );
+  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [isChannelLoading, setIsChannelLoading] = useState(false);
 
   const handleStreamSelect = (match) => {
     const proxyUrl = `http://localhost:3001/proxy/${match.stream_url}`;
-
     setSelectedStream(proxyUrl);
+    setSelectedChannel(null); // Скрываем iframe, показываем плеер
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleChannelSelect = (channelUrl) => {
+    setSelectedChannel(channelUrl);
+    setIsChannelLoading(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Таймер для скрытия loader через 5 секунд
+  useEffect(() => {
+    if (isChannelLoading) {
+      const timer = setTimeout(() => {
+        setIsChannelLoading(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isChannelLoading]);
   return (
     <>
       <PreHeader />
       <Header />
       <main>
-        <Channels />
+        <Channels onChannelSelect={handleChannelSelect} />
         <AdBanner link="https://heylink.me/nextbet7/" imgUrl={AdBannerImg} />
         {/* <img src={AdBanner} alt='Ad banner' className='s-ad'/> */}
-        <EmbeddedStream src="https://nextbet7.tv/kanal-izle/yes5" />
-        <Player src={selectedStream} className="hls-player--fluid" />
+        
+        {/* Показываем iframe если выбран канал, иначе плеер */}
+        {selectedChannel ? (
+          <EmbeddedStream src={selectedChannel} showLoader={isChannelLoading} />
+        ) : (
+          <Player src={selectedStream} className="hls-player--fluid" />
+        )}
 
-        {loading && <div className="loading">Загрузка каналов...</div>}
-        {error && <div className="error">Ошибка загрузки: {error}</div>}
+        {loading && <div className="loading">טוען ערוצים...</div>}
+        {error && <div className="error">שגיאת טעינה: {error}</div>}
         {data && (
           <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
         )}
