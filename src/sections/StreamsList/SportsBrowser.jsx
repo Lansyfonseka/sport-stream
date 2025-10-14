@@ -171,10 +171,8 @@ export default function SportsBrowser({
           <li
             key={m.id}
             className={`sb-card sb-card--${m.status}`}
-            onClick={() =>
-              m.status === "live" && onStreamSelect && onStreamSelect(m)
-            }
-            style={{ cursor: m.status === "live" ? "pointer" : "default" }}
+            onClick={() => onStreamSelect && onStreamSelect(m)}
+            style={{ cursor: "pointer" }}
             title={m.status === "live" ? "לחץ לצפייה" : "משחק מתוכנן"}
           >
             {m.status === "scheduled" ? (

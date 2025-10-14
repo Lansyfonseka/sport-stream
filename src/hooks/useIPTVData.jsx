@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AppConfig } from "../config/app.config";
 
 export function useIPTVData() {
   const [data, setData] = useState(null);
@@ -21,7 +22,7 @@ export function useIPTVData() {
           fetch("https://iptv-org.github.io/api/categories.json"),
           fetch("https://iptv-org.github.io/api/blocklist.json"),
           fetch("https://iptv-org.github.io/api/logos.json"),
-          fetch("http://localhost:3001/api/schedule").catch(() => null),
+          fetch(`${AppConfig.baseBackUrl}/api/schedule`).catch(() => null),
         ]);
 
         const [channels, streams, categories, blocklist, logos] =

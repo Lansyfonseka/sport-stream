@@ -14,6 +14,7 @@ import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu"
 import EmbeddedStream from "./components/EmbeddedStream/EmbeddedStream";
 import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches";
 import { useIPTVData } from "./hooks/useIPTVData";
+import { AppConfig } from "./config/app.config";
 
 export default function App() {
   const { data, loading, error } = useIPTVData();
@@ -31,7 +32,7 @@ export default function App() {
       setSelectedChannel(null);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      const proxyUrl = `http://localhost:3001/proxy/${match.stream_url}`;
+      const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${match.stream_url}`;
       setSelectedStream(proxyUrl);
       setSelectedChannel(null);
       setIsScheduledMatch(false);
