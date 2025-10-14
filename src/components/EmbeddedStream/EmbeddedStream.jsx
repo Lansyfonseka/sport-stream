@@ -10,10 +10,12 @@ export default function EmbeddedStream({ src, showLoader }) {
         allowFullScreen
         scrolling="no"
       />
+      <div className="embedded-stream__border embedded-stream__border--left"></div>
+      <div className="embedded-stream__border embedded-stream__border--right"></div>
       {showLoader && (
         <div className="embedded-stream__loader">
           <div className="embedded-stream__spinner"></div>
-          <p className="embedded-stream__loader-text">טוען ערוץ...</p>
+          <p className="embedded-stream__loader-text">...טוען ערוץ</p>
         </div>
       )}
     </div>

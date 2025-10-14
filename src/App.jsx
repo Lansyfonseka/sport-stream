@@ -54,7 +54,7 @@ export default function App() {
         <Channels onChannelSelect={handleChannelSelect} />
         <AdBanner link="https://heylink.me/nextbet7/" imgUrl={AdBannerImg} />
         {/* <img src={AdBanner} alt='Ad banner' className='s-ad'/> */}
-        
+
         {/* Показываем iframe если выбран канал, иначе плеер */}
         {selectedChannel ? (
           <EmbeddedStream src={selectedChannel} showLoader={isChannelLoading} />
@@ -62,7 +62,7 @@ export default function App() {
           <Player src={selectedStream} className="hls-player--fluid" />
         )}
 
-        {loading && <div className="loading">טוען ערוצים...</div>}
+        {loading && <div className="loading">...טוען ערוצים</div>}
         {error && <div className="error">שגיאת טעינה: {error}</div>}
         {data && (
           <>
