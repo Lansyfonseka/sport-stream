@@ -33,5 +33,15 @@
       max-width: 16%;
     }
   }
-  
+}
+
+@media screen and (max-width: 670px) {
+  .s-footer {
+    &__links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

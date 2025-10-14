@@ -23,12 +23,20 @@ export default function App() {
   );
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [isChannelLoading, setIsChannelLoading] = useState(false);
+  const [isScheduledMatch, setIsScheduledMatch] = useState(false);
 
   const handleStreamSelect = (match) => {
-    const proxyUrl = `http://localhost:3001/proxy/${match.stream_url}`;
-    setSelectedStream(proxyUrl);
-    setSelectedChannel(null); // Скрываем iframe, показываем плеер
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (match.status === "scheduled") {
+      setIsScheduledMatch(true);
+      setSelectedChannel(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const proxyUrl = `http://localhost:3001/proxy/${match.stream_url}`;
+      setSelectedStream(proxyUrl);
+      setSelectedChannel(null);
+      setIsScheduledMatch(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleChannelSelect = (channelUrl) => {
@@ -59,7 +67,16 @@ export default function App() {
         {selectedChannel ? (
           <EmbeddedStream src={selectedChannel} showLoader={isChannelLoading} />
         ) : (
-          <Player src={selectedStream} className="hls-player--fluid" />
+          <div style={{ position: "relative" }}>
+            <Player src={selectedStream} className="hls-player--fluid" />
+            {isScheduledMatch && (
+              <div className="scheduled-overlay">
+                <div className="scheduled-overlay__content">
+                  <p>השידור טרם החל</p>
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         {loading && <div className="loading">...טוען ערוצים</div>}
@@ -86,8 +103,8 @@ export default function App() {
             ".allow-native-menu",
           ]}
         />
-        {/* <Banner side='left'/>
-    <Banner side='right'/> */}
+        <Banner side="left" />
+        <Banner side="right" />
         {/* <Hero />
   <Features />
   <HowItWorks />

@@ -103,6 +103,13 @@ export default function Channels({ onChannelSelect }) {
         watchSlidesProgress={false}
         modules={[Navigation, Pagination]}
         className="mySwiper"
+        breakpoints={{
+          320: { slidesPerView: 2, spaceBetween: 8 },
+          480: { slidesPerView: 3, spaceBetween: 8 },
+          670: { slidesPerView: 3, spaceBetween: 10 },
+          768: { slidesPerView: 4, spaceBetween: 10 },
+          1024: { slidesPerView: 5, spaceBetween: 10 },
+        }}
         onInit={(swiper) => {
           swiper.params.navigation.prevEl = prevRef.current;
           swiper.params.navigation.nextEl = nextRef.current;
