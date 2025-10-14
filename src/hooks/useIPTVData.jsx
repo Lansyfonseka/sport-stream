@@ -8,13 +8,14 @@ export function useIPTVData() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [channelsRes, streamsRes, categoriesRes, blocklistRes, logosRes] =
+        const [channelsRes, streamsRes, categoriesRes, blocklistRes, logosRes, scheduleRes] =
           await Promise.all([
             fetch("https://iptv-org.github.io/api/channels.json"),
             fetch("https://iptv-org.github.io/api/streams.json"),
             fetch("https://iptv-org.github.io/api/categories.json"),
             fetch("https://iptv-org.github.io/api/blocklist.json"),
             fetch("https://iptv-org.github.io/api/logos.json"),
+            fetch("http://localhost:3001/api/schedule").catch(() => null),
           ]);
 
         const [channels, streams, categories, blocklist, logos] =
@@ -25,6 +26,13 @@ export function useIPTVData() {
             blocklistRes.json(),
             logosRes.json(),
           ]);
+
+        // Получаем расписание
+        const scheduleData = scheduleRes && scheduleRes.ok 
+          ? await scheduleRes.json() 
+          : { matches: [] };
+        
+        console.log(`Загружено запланированных матчей: ${scheduleData.matches?.length || 0}`);
 
         // Создаем мапу логотипов каналов по channel ID
         const logoMap = new Map();
@@ -146,8 +154,14 @@ export function useIPTVData() {
           };
         });
 
-        // Собираем уникальные категории из матчей
-        const categoriesSet = new Set(matches.map((m) => m.category_id));
+        // Добавляем запланированные матчи
+        const scheduledMatches = scheduleData.matches || [];
+        const allMatches = [...matches, ...scheduledMatches];
+
+        console.log(`Всего матчей: ${allMatches.length} (live: ${matches.length}, scheduled: ${scheduledMatches.length})`);
+
+        // Собираем уникальные категории из всех матчей
+        const categoriesSet = new Set(allMatches.map((m) => m.category_id));
 
         // Определяем все возможные категории с правильными slug для иконок
         const allCategories = [
@@ -174,7 +188,7 @@ export function useIPTVData() {
 
         const transformedData = {
           categories: sportCategories,
-          matches: matches,
+          matches: allMatches,
         };
 
         setData(transformedData);
