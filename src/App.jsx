@@ -19,14 +19,14 @@ import { AppConfig } from "./config/app.config";
 export default function App() {
   const { data, loading, error } = useIPTVData();
   console.log(data);
-  const [selectedStream, setSelectedStream] = useState(
-    "https://cf.1anonsports.online/x/17417718.m3u8"
-  );
+  const [selectedStream, setSelectedStream] = useState(null);
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [isChannelLoading, setIsChannelLoading] = useState(false);
   const [isScheduledMatch, setIsScheduledMatch] = useState(false);
+  const [showInitialMessage, setShowInitialMessage] = useState(true);
 
   const handleStreamSelect = (match) => {
+    setShowInitialMessage(false);
     if (match.status === "scheduled") {
       setIsScheduledMatch(true);
       setSelectedChannel(null);
@@ -41,6 +41,7 @@ export default function App() {
   };
 
   const handleChannelSelect = (channelUrl) => {
+    setShowInitialMessage(false);
     setSelectedChannel(channelUrl);
     setIsChannelLoading(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -68,8 +69,15 @@ export default function App() {
         {selectedChannel ? (
           <EmbeddedStream src={selectedChannel} showLoader={isChannelLoading} />
         ) : (
-          <div style={{ position: "relative" }}>
-            <Player src={selectedStream} className="hls-player--fluid" />
+          <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", background: "#000" }}>
+            {selectedStream && <Player src={selectedStream} className="hls-player--fluid" />}
+            {showInitialMessage && (
+              <div className="scheduled-overlay">
+                <div className="scheduled-overlay__content">
+                  <p>בחר ערוץ או משחק</p>
+                </div>
+              </div>
+            )}
             {isScheduledMatch && (
               <div className="scheduled-overlay">
                 <div className="scheduled-overlay__content">
