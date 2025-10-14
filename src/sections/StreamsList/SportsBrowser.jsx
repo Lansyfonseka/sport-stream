@@ -171,9 +171,9 @@ export default function SportsBrowser({
           <li
             key={m.id}
             className={`sb-card sb-card--${m.status}`}
-            onClick={() => onStreamSelect && onStreamSelect(m)}
-            style={{ cursor: "pointer" }}
-            title="Нажмите для просмотра"
+            onClick={() => m.status === "live" && onStreamSelect && onStreamSelect(m)}
+            style={{ cursor: m.status === "live" ? "pointer" : "default" }}
+            title={m.status === "live" ? "Нажмите для просмотра" : "Запланированный матч"}
           >
             <img
               src={
