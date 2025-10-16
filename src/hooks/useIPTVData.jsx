@@ -24,7 +24,7 @@ export function useIPTVData() {
           fetch("https://iptv-org.github.io/api/blocklist.json"),
           fetch("https://iptv-org.github.io/api/logos.json"),
           // Получаем расписание с бэкенда только если флаг выключен
-          AppConfig.useFrontendSchedule 
+          AppConfig.useFrontendSchedule
             ? Promise.resolve(null)
             : fetch(`${AppConfig.baseBackUrl}/api/schedule`).catch(() => null),
         ]);
@@ -40,10 +40,10 @@ export function useIPTVData() {
 
         // Получаем расписание
         let scheduleMatches = [];
-        
+
         if (AppConfig.useFrontendSchedule) {
           // Получаем расписание с фронтенда
-          console.log('Fetching schedule from frontend...');
+          console.log("Fetching schedule from frontend...");
           scheduleMatches = await fetchScheduleFromFrontend();
         } else {
           // Получаем расписание с бэкенда

@@ -1,21 +1,61 @@
 const API_KEY = '3';
 const BASE_URL = 'https://www.thesportsdb.com/api/v1/json';
 
+// Кэширование для избежания 429 ошибок от TheSportsDB API
+// - Кэш на 1 день для каждой лиги
+const CACHE_DURATION = 24 * 60 * 60 * 1000;
+const CACHE_PREFIX = 'schedule_cache_';
+
+const getCachedData = (key) => {
+  try {
+    const cached = localStorage.getItem(CACHE_PREFIX + key);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+        console.log(`Using cached data for ${key}`);
+        return parsed.data;
+      } else {
+        localStorage.removeItem(CACHE_PREFIX + key);
+      }
+    }
+  } catch (error) {
+    console.error('Error reading cache:', error);
+  }
+  return null;
+};
+
+const setCachedData = (key, data) => {
+  try {
+    const cacheData = {
+      data,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify(cacheData));
+  } catch (error) {
+    console.error('Error saving cache:', error);
+  }
+};
+
+export const clearScheduleCache = () => {
+  try {
+    const keys = Object.keys(localStorage);
+    keys.forEach(key => {
+      if (key.startsWith(CACHE_PREFIX)) {
+        localStorage.removeItem(key);
+      }
+    });
+    console.log('Schedule cache cleared');
+  } catch (error) {
+    console.error('Error clearing cache:', error);
+  }
+};
+
 const LEAGUES = {
   football: [
     { id: '4328', name: 'English Premier League' },
     { id: '4335', name: 'Spanish La Liga' },
     { id: '4331', name: 'German Bundesliga' },
     { id: '4424', name: 'UEFA Champions League' },
-  ],
-  basketball: [
-    { id: '4387', name: 'NBA' },
-  ],
-  icehockey: [
-    { id: '4380', name: 'NHL' },
-  ],
-  tennis: [
-    { id: '4421', name: 'ATP Tour' },
   ],
 };
 
@@ -31,6 +71,13 @@ const mapSportName = (sport) => {
 
 const fetchLeagueSchedule = async (leagueId, sport, leagueName, today) => {
   try {
+    // Ключ без даты - актуальность проверяется по timestamp
+    const cacheKey = `league-${leagueId}`;
+    const cachedData = getCachedData(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
+    
     const url = `${BASE_URL}/${API_KEY}/eventsnextleague.php?id=${leagueId}`;
     console.log(`Fetching ${leagueName}:`, url);
     
@@ -56,7 +103,7 @@ const fetchLeagueSchedule = async (leagueId, sport, leagueName, today) => {
     
     console.log(`${leagueName}: ${filtered.length} matches for next 7 days`);
 
-    return filtered.map((event) => ({
+    const result = filtered.map((event) => ({
       id: event.idEvent,
       sport: mapSportName(sport),
       league: leagueName,
@@ -73,6 +120,10 @@ const fetchLeagueSchedule = async (leagueId, sport, leagueName, today) => {
       status: 'scheduled',
       category_id: `cat-${sport}`,
     }));
+    
+    setCachedData(cacheKey, result);
+    console.log(`${leagueName}: saved to localStorage cache`);
+    return result;
   } catch (error) {
     console.error(`Error fetching ${leagueName}:`, error.message);
     return [];
