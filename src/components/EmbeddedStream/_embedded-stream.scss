@@ -97,3 +97,34 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 900px) {
+  .embedded-stream {
+    &__iframe {
+      pointer-events: auto;
+    }
+
+    &::before {
+      display: block;
+      bottom: 0;
+      top: auto;
+      left: 0;
+      border-radius: 0 15px 0 0;
+      width: 50%;
+      height: 20%;
+      background: rgba(119, 119, 119, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    &::after {
+      display: none;
+    }
+
+    &__border--left,
+    &__border--right {
+      display: none;
+    }
+  }
+  
+}
