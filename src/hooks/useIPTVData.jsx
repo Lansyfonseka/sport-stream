@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AppConfig } from "../config/app.config";
+import { fetchScheduleFromFrontend } from "../services/scheduleService";
 
 export function useIPTVData() {
   const [data, setData] = useState(null);
@@ -22,7 +23,10 @@ export function useIPTVData() {
           fetch("https://iptv-org.github.io/api/categories.json"),
           fetch("https://iptv-org.github.io/api/blocklist.json"),
           fetch("https://iptv-org.github.io/api/logos.json"),
-          fetch(`${AppConfig.baseBackUrl}/api/schedule`).catch(() => null),
+          // Получаем расписание с бэкенда только если флаг выключен
+          AppConfig.useFrontendSchedule 
+            ? Promise.resolve(null)
+            : fetch(`${AppConfig.baseBackUrl}/api/schedule`).catch(() => null),
         ]);
 
         const [channels, streams, categories, blocklist, logos] =
@@ -35,15 +39,23 @@ export function useIPTVData() {
           ]);
 
         // Получаем расписание
-        const scheduleData =
-          scheduleRes && scheduleRes.ok
-            ? await scheduleRes.json()
-            : { matches: [] };
+        let scheduleMatches = [];
+        
+        if (AppConfig.useFrontendSchedule) {
+          // Получаем расписание с фронтенда
+          console.log('Fetching schedule from frontend...');
+          scheduleMatches = await fetchScheduleFromFrontend();
+        } else {
+          // Получаем расписание с бэкенда
+          const scheduleData =
+            scheduleRes && scheduleRes.ok
+              ? await scheduleRes.json()
+              : { matches: [] };
+          scheduleMatches = scheduleData.matches || [];
+        }
 
         console.log(
-          `Загружено запланированных матчей: ${
-            scheduleData.matches?.length || 0
-          }`
+          `Загружено запланированных матчей: ${scheduleMatches.length}`
         );
 
         // Создаем мапу логотипов каналов по channel ID
@@ -167,7 +179,7 @@ export function useIPTVData() {
         });
 
         // Добавляем запланированные матчи
-        const scheduledMatches = scheduleData.matches || [];
+        const scheduledMatches = scheduleMatches;
         const allMatches = [...matches, ...scheduledMatches];
 
         console.log(

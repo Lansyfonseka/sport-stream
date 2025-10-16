@@ -6,7 +6,11 @@ const baseBackUrlProd = 'http://193.227.240.252:3005'
 
 const USE_PRODUCTION = true
 
+// получать расписание с фронтенда (true) или с бэкенда (false)
+const USE_FRONTEND_SCHEDULE = true
+
 export const AppConfig = {
   baseFrontUrl: USE_PRODUCTION ? baseFrontUrlProd : baseFrontUrlDev,
   baseBackUrl: USE_PRODUCTION ? baseBackUrlProd : baseBackUrlDev,
+  useFrontendSchedule: USE_FRONTEND_SCHEDULE,
 }
