@@ -13,7 +13,7 @@
     top: -100px;
     left: 0;
     overflow: hidden;
-    pointer-events: none;
+    pointer-events: auto;
   }
 
   &::before,
@@ -35,7 +35,7 @@
   &::after {
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 70%;
     height: 70px;
   }
 
@@ -58,6 +58,17 @@
     right: 0;
     width: 70px;
     height: 100%;
+  }
+
+  &__mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 70px);
+    background: transparent;
+    z-index: 6;
+    pointer-events: auto;
   }
 
   &__loader {
@@ -102,6 +113,10 @@
   .embedded-stream {
     &__iframe {
       pointer-events: auto;
+    }
+
+    &__mask {
+      display: none;
     }
 
     &::before {

@@ -10,6 +10,7 @@ export default function EmbeddedStream({ src, showLoader }) {
         allowFullScreen
         scrolling="no"
       />
+      <div className="embedded-stream__mask"></div>
       <div className="embedded-stream__border embedded-stream__border--left"></div>
       <div className="embedded-stream__border embedded-stream__border--right"></div>
       {showLoader && (
