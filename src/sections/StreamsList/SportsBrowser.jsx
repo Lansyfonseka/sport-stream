@@ -29,7 +29,7 @@ export default function SportsBrowser({
   const [streamStatus, setStreamStatus] = useState("live");
 
   if (!data || !data.categories || !data.matches) {
-    return <div className="sb sb--empty">Нет данных</div>;
+    return <div className="sb sb--empty">אין נתונים</div>;
   }
 
   // нормализация строки для поиска
@@ -231,7 +231,7 @@ export default function SportsBrowser({
 
       {filtered.length === 0 && (
         <div className="sb__empty">
-          Ничего не найдено. Попробуйте изменить запрос.
+          לא נמצאו תוצאות. נסה לשנות את החיפוש.
         </div>
       )}
     </div>
