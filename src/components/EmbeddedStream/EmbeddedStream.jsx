@@ -9,7 +9,6 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const handleIframeClick = () => {
     const iframe = iframeRef.current;
 
     if (iframe && iframe.contentWindow) {
@@ -21,7 +20,6 @@ export default function EmbeddedStream({ src, showLoader }) {
         console.log('Кнопка не найдена внутри iframe');
       }
     }
-  };
       setTimeout(() => setIframeSrc(`${src}?t=${new Date().getTime()}`), 2000)
     }, 5000);
     return () => clearTimeout(timeout);
