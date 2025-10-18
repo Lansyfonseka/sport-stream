@@ -47,7 +47,6 @@ export default function EmbeddedStream({ src, showLoader }) {
         </div>
       )}
 
-      <button onClick={handleIframeClick}>Кликнуть по кнопке внутри iframe</button>
     </div>
   );
 }
