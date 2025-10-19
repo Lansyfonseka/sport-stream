@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import Header from "./sections/Header/Header";
-import Footer from "./sections/Footer/Footer";
-import PreHeader from "./sections/PreHeader/PreHeader";
-import Channels from "./sections/Channels/Channels";
-import AdBannerImg from "./assets/next-1000-100-1.gif";
-import Player from "./sections/Player/Player";
-import SportsBrowser from "./sections/StreamsList/SportsBrowser";
+import { useEffect, useState } from "react"
+import AdBannerImg from "./assets/next-1000-100-1.gif"
+import Channels from "./sections/Channels/Channels"
+import Footer from "./sections/Footer/Footer"
+import Header from "./sections/Header/Header"
+import Player from "./sections/Player/Player"
+import PreHeader from "./sections/PreHeader/PreHeader"
+import SportsBrowser from "./sections/StreamsList/SportsBrowser"
 
-import Banner from "./components/Banner/Banner";
-import AdBanner from "./components/AdBanner/AdBanner";
-import Offers from "./sections/Offers/Offers";
-import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu";
-import EmbeddedStream from "./components/EmbeddedStream/EmbeddedStream";
-import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches";
-import { useIPTVData } from "./hooks/useIPTVData";
-import { AppConfig } from "./config/app.config";
+import AdBanner from "./components/AdBanner/AdBanner"
+import Banner from "./components/Banner/Banner"
+import EmbeddedStream from "./components/EmbeddedStream/EmbeddedStream"
+import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu"
+import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches"
+import { AppConfig } from "./config/app.config"
+import { useIPTVData } from "./hooks/useIPTVData"
+import Offers from "./sections/Offers/Offers"
 
 export default function App() {
   const { data, loading, error } = useIPTVData();
@@ -52,7 +52,7 @@ export default function App() {
     if (isChannelLoading) {
       const timer = setTimeout(() => {
         setIsChannelLoading(false);
-      }, 5000);
+      }, 8000);
       return () => clearTimeout(timer);
     }
   }, [isChannelLoading]);

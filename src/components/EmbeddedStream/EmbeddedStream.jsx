@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import "./_embedded-stream.scss";
+import { useEffect, useRef, useState } from "react"
+import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
   const iframeRef = useRef(null);
@@ -13,7 +13,9 @@ export default function EmbeddedStream({ src, showLoader }) {
     }, 5000);
     return () => clearTimeout(timeout);
   }, [src]);
-
+  useEffect(() => {
+    
+  })
   return (
     <div className="embedded-stream">
       <iframe
@@ -24,7 +26,8 @@ export default function EmbeddedStream({ src, showLoader }) {
         allowFullScreen
         scrolling="no"
         allow="autoplay"
-      />
+      >
+      </iframe>
       <div className="embedded-stream__mask"></div>
       <div className="embedded-stream__border embedded-stream__border--left"></div>
       <div className="embedded-stream__border embedded-stream__border--right"></div>

@@ -13,8 +13,10 @@
     top: -100px;
     left: 0;
     overflow: hidden;
-    pointer-events: auto;
+    pointer-events:none;
+
   }
+
 
   &::before,
   &::after {
