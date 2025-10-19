@@ -19,8 +19,8 @@ export default function EmbeddedStream({ src, showLoader }) {
 
     }
 
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    document.addEventListener("resize", handleResize)
+    return () => document.removeEventListener("resize", handleResize)
   }, [src])
   useEffect(() => {
     setLoader(true)
