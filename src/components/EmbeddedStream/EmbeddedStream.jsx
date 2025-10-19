@@ -5,6 +5,7 @@ export default function EmbeddedStream({ src, showLoader }) {
   const iframeRef = useRef(null)
   const [iframeSrc, setIframeSrc] = useState(src)
   const containerRef = useState(null)
+  const [loader, setLoader] = useState(false)
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
@@ -12,6 +13,19 @@ export default function EmbeddedStream({ src, showLoader }) {
     return () => clearTimeout(timeout)
   }, [src])
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIframeSrc(`${src}?t=${Date.now()}`)
+
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [src])
+  useEffect(() => {
+    setLoader(true)
+    setTimeout(() => setLoader(false), 4000)
+  }, [iframeSrc])
   return (
     <div ref={containerRef} className='embedded-stream' >
       <iframe
@@ -30,7 +44,7 @@ export default function EmbeddedStream({ src, showLoader }) {
 
       <div className="embedded-stream__clickBlocker" />
       {
-        showLoader && (
+        (showLoader || loader) && (
           <div className="embedded-stream__loader">
             <div className="embedded-stream__spinner" />
             <p className="embedded-stream__loader-text">...טוען ערוץ</p>
