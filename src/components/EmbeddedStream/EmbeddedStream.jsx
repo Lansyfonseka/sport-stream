@@ -15,13 +15,13 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIframeSrc(`${src}?t=${Date.now()}`)
+      window.location.reload()
 
     }
 
-    document.addEventListener("resize", handleResize)
-    return () => document.removeEventListener("resize", handleResize)
-  }, [src])
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
   useEffect(() => {
     setLoader(true)
     setTimeout(() => setLoader(false), 4000)
