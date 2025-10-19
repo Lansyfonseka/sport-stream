@@ -2,43 +2,41 @@ import { useEffect, useRef, useState } from "react"
 import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
-  const iframeRef = useRef(null);
-  const [iframeSrc, setIframeSrc] = useState(src);
-
-  
-
+  const iframeRef = useRef(null)
+  const [iframeSrc, setIframeSrc] = useState(src)
+  const containerRef = useState(null)
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
-    }, 5000);
-    return () => clearTimeout(timeout);
-  }, [src]);
-  useEffect(() => {
-    
-  })
+    }, 5000)
+    return () => clearTimeout(timeout)
+  }, [src])
+
   return (
-    <div className="embedded-stream">
+    <div ref={containerRef} className='embedded-stream' >
       <iframe
         ref={iframeRef}
-        src={iframeSrc}  // Используем динамическое значение src
+        src={iframeSrc}
         className="embedded-stream__iframe"
         title="Embedded Stream"
         allowFullScreen
         scrolling="no"
-        allow="autoplay"
-      >
-      </iframe>
-      <div className="embedded-stream__mask"></div>
-      <div className="embedded-stream__border embedded-stream__border--left"></div>
-      <div className="embedded-stream__border embedded-stream__border--right"></div>
+        allow="autoplay; fullscreen"
+      />
+      <div className="embedded-stream__blur-corner">
+        <img src='/princebet77_logo.svg' />
+      </div>
+      <div className="embedded-stream__blur-corner-fullscreen" />
 
-      {showLoader && (
-        <div className="embedded-stream__loader">
-          <div className="embedded-stream__spinner"></div>
-          <p className="embedded-stream__loader-text">...טוען ערוץ</p>
-        </div>
-      )}
-
-    </div>
-  );
+      <div className="embedded-stream__clickBlocker" />
+      {
+        showLoader && (
+          <div className="embedded-stream__loader">
+            <div className="embedded-stream__spinner" />
+            <p className="embedded-stream__loader-text">...טוען ערוץ</p>
+          </div>
+        )
+      }
+    </div >
+  )
 }

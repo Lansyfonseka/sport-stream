@@ -17,52 +17,52 @@ import { useIPTVData } from "./hooks/useIPTVData"
 import Offers from "./sections/Offers/Offers"
 
 export default function App() {
-  const { data, loading, error } = useIPTVData();
-  console.log(data);
-  const [selectedStream, setSelectedStream] = useState(null);
-  const [selectedChannel, setSelectedChannel] = useState(null);
-  const [isChannelLoading, setIsChannelLoading] = useState(false);
-  const [isScheduledMatch, setIsScheduledMatch] = useState(false);
-  const [showInitialMessage, setShowInitialMessage] = useState(true);
+  const { data, loading, error } = useIPTVData()
+  console.log(data)
+  const [selectedStream, setSelectedStream] = useState(null)
+  const [selectedChannel, setSelectedChannel] = useState(null)
+  const [isChannelLoading, setIsChannelLoading] = useState(false)
+  const [isScheduledMatch, setIsScheduledMatch] = useState(false)
+  const [showInitialMessage, setShowInitialMessage] = useState(true)
 
   const handleStreamSelect = (match) => {
-    setShowInitialMessage(false);
+    setShowInitialMessage(false)
     if (match.status === "scheduled") {
-      setIsScheduledMatch(true);
-      setSelectedChannel(null);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsScheduledMatch(true)
+      setSelectedChannel(null)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     } else {
-      const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${match.stream_url}`;
-      setSelectedStream(proxyUrl);
-      setSelectedChannel(null);
-      setIsScheduledMatch(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${match.stream_url}`
+      setSelectedStream(proxyUrl)
+      setSelectedChannel(null)
+      setIsScheduledMatch(false)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
-  };
+  }
 
   const handleChannelSelect = (channelUrl) => {
-    setShowInitialMessage(false);
-    setSelectedChannel(channelUrl);
-    setIsChannelLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    setShowInitialMessage(false)
+    setSelectedChannel(channelUrl)
+    setIsChannelLoading(true)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   // Таймер для скрытия loader через 5 секунд
   useEffect(() => {
     if (isChannelLoading) {
       const timer = setTimeout(() => {
-        setIsChannelLoading(false);
-      }, 8000);
-      return () => clearTimeout(timer);
+        setIsChannelLoading(false)
+      }, 8000)
+      return () => clearTimeout(timer)
     }
-  }, [isChannelLoading]);
+  }, [isChannelLoading])
   return (
     <>
       <PreHeader />
       <Header />
       <main>
         <Channels onChannelSelect={handleChannelSelect} />
-        <AdBanner link="https://heylink.me/nextbet7/" imgUrl={AdBannerImg} />
+        <AdBanner link="https://heylink.me/PrinceBet77" imgUrl={AdBannerImg} />
         {/* <img src={AdBanner} alt='Ad banner' className='s-ad'/> */}
 
         {/* Показываем iframe если выбран канал, иначе плеер */}
@@ -99,7 +99,7 @@ export default function App() {
           </>
         )}
 
-        <AdBanner link="https://heylink.me/nextbet7/" imgUrl={AdBannerImg} />
+        <AdBanner link="https://heylink.me/PrinceBet77" imgUrl={AdBannerImg} />
         <h1 className="h1">מבצעים</h1>
         <Offers />
         {/* <RtlMenu/> */}
@@ -123,5 +123,5 @@ export default function App() {
       </main>
       <Footer />
     </>
-  );
+  )
 }
