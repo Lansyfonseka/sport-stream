@@ -1,4 +1,3 @@
-import Logo from '../../assets/NEXTBETLOGO.png'
 import './_header.scss'
 
 export default function Header() {
@@ -14,7 +13,7 @@ export default function Header() {
   return (
     <header className="s-header" data-sticky>
       <div className="s-header__logo">
-        <img src={Logo} alt="logo" />
+        <img src={'/princebet77_logo.svg'} alt="logo" />
       </div>
       <div className='s-header__menu'>
         {menu.map((item, index) =>
