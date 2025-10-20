@@ -18,6 +18,8 @@ export default function EmbeddedStream({ src, showLoader }) {
     let resizeTimeout;
 
     const handleResize = () => {
+      if (document.fullscreenElement) return;
+
       if (iframeRef.current) {
         setIsResizing(true);
         setIframeSrc(`${src}?t=${new Date().getTime()}`);
@@ -30,6 +32,7 @@ export default function EmbeddedStream({ src, showLoader }) {
     };
 
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
       clearTimeout(resizeTimeout);
