@@ -15,9 +15,6 @@
     overflow: hidden;
     pointer-events: all;
 
-    @media screen and (max-width: 600px) {
-      display: none;
-    }
   }
 
   &__clickBlocker {
@@ -28,6 +25,10 @@
     height: 95%;
     background: transparent;
     z-index: 10;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   &__blur-corner {
