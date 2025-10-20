@@ -4,7 +4,7 @@ const baseBackUrlDev = 'http://localhost:3005'
 const baseFrontUrlProd = 'http://193.227.240.252:5173'
 const baseBackUrlProd = 'http://193.227.240.252:3005'
 
-const USE_PRODUCTION = false;
+const USE_PRODUCTION = true;
 
 // получать расписание с фронтенда (true) или с бэкенда (false)
 const USE_FRONTEND_SCHEDULE = true;
