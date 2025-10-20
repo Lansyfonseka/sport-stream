@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import AdBannerImg from "./assets/next-1000-100-1.gif"
+import AdBannerImg from "./assets/middle-banner.png"
 import Channels from "./sections/Channels/Channels"
 import Footer from "./sections/Footer/Footer"
 import Header from "./sections/Header/Header"
