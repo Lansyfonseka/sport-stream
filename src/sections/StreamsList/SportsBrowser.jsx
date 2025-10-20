@@ -1,7 +1,7 @@
-import "./_sportsBrowser.scss";
+import "./_sportsBrowser.scss"
 
-import { useMemo, useState } from "react";
-import { getCategoryIcon } from "./icons-map";
+import { useMemo, useState } from "react"
+import { getCategoryIcon } from "./icons-map"
 
 /**
  * Props:
@@ -24,12 +24,12 @@ export default function SportsBrowser({
   className = "",
   onStreamSelect,
 }) {
-  const [activeCat, setActiveCat] = useState(data?.categories?.[0]?.id ?? null);
-  const [query, setQuery] = useState("");
-  const [streamStatus, setStreamStatus] = useState("live");
+  const [activeCat, setActiveCat] = useState('all')
+  const [query, setQuery] = useState("")
+  const [streamStatus, setStreamStatus] = useState("live")
 
   if (!data || !data.categories || !data.matches) {
-    return <div className="sb sb--empty">אין נתונים</div>;
+    return <div className="sb sb--empty">אין נתונים</div>
   }
 
   // нормализация строки для поиска
@@ -38,7 +38,7 @@ export default function SportsBrowser({
       .toString()
       .toLowerCase()
       .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "");
+      .replace(/\p{Diacritic}/gu, "")
 
   // const statusLive = useMemo(()=> {
   //   const filtredStreams = data.matches.filter((m) => m.status === streamStatus)
@@ -46,13 +46,13 @@ export default function SportsBrowser({
   // }, [data.matches, streamStatus])
 
   const filtered = useMemo(() => {
-    const q = norm(query);
-    const filterStatus = data.matches.filter((m) => m.status === streamStatus);
+    const q = norm(query)
+    const filterStatus = data.matches.filter((m) => m.status === streamStatus)
     const filterCategory = filterStatus.filter((m) =>
       activeCat ? m.category_id === activeCat || activeCat === "all" : true
-    );
+    )
     const filterQuery = filterCategory.filter((m) => {
-      if (!q) return true;
+      if (!q) return true
       const hay =
         norm(m.league) +
         " " +
@@ -62,32 +62,32 @@ export default function SportsBrowser({
         " " +
         norm(m.country) +
         " " +
-        norm(m.format ?? "");
-      return hay.includes(q);
-    });
+        norm(m.format ?? "")
+      return hay.includes(q)
+    })
     return filterQuery.sort((a, b) =>
       (a.kickoff_local || "").localeCompare(b.kickoff_local)
-    );
-  }, [query, data.matches, streamStatus, activeCat]);
+    )
+  }, [query, data.matches, streamStatus, activeCat])
 
   const sportCategories = useMemo(() => {
-    const set = new Set();
+    const set = new Set()
     const filtredStreams = data.matches.filter(
       (m) => m.status === streamStatus
-    );
-    for (const m of filtredStreams) set.add(m.category_id);
-    return data.categories.filter((c) => set.has(c.id));
-  }, [data, streamStatus]);
+    )
+    for (const m of filtredStreams) set.add(m.category_id)
+    return data.categories.filter((c) => set.has(c.id))
+  }, [data, streamStatus])
 
   const statsByCat = useMemo(() => {
-    const map = new Map();
-    map.set("all", filtered.length);
-    for (const c of sportCategories) map.set(c.id, 0);
+    const map = new Map()
+    map.set("all", filtered.length)
+    for (const c of sportCategories) map.set(c.id, 0)
     for (const m of filtered) {
-      map.set(m.category_id, (map.get(m.category_id) ?? 0) + 1);
+      map.set(m.category_id, (map.get(m.category_id) ?? 0) + 1)
     }
-    return map;
-  }, [filtered, sportCategories]);
+    return map
+  }, [filtered, sportCategories])
 
   return (
     <div className={`sb ${className}`}>
@@ -136,7 +136,7 @@ export default function SportsBrowser({
             <span className="sb__tab-name">הכל</span>
           </button>
           {sportCategories.map((c) => {
-            const iconId = getCategoryIcon(c.slug);
+            const iconId = getCategoryIcon(c.slug)
             return (
               <button
                 key={c.id}
@@ -161,7 +161,7 @@ export default function SportsBrowser({
                   </svg>
                 </span>
               </button>
-            );
+            )
           })}
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function SportsBrowser({
         </div>
       )}
     </div>
-  );
+  )
 }
 
 function Team({ name, logo, align = "left" }) {
@@ -248,7 +248,7 @@ function Team({ name, logo, align = "left" }) {
       )}
       <span className="sb-team__name">{name}</span>
     </div>
-  );
+  )
 }
 
 function StatusBadge({ status }) {
@@ -256,9 +256,9 @@ function StatusBadge({ status }) {
     status === "live"
       ? "LIVE"
       : status === "finished"
-      ? "FT"
-      : status === "postponed"
-      ? "PPD"
-      : "SCH";
-  return <span className={`sb-status sb-status--${status}`}>{label}</span>;
+        ? "FT"
+        : status === "postponed"
+          ? "PPD"
+          : "SCH"
+  return <span className={`sb-status sb-status--${status}`}>{label}</span>
 }
