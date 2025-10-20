@@ -195,9 +195,7 @@ export default function SportsBrowser({
                 alt="channel-logo"
                 className="sb-team__logo"
                 loading="lazy"
-                onError={(e) =>
-                  (e.target.src = "https://via.placeholder.com/64x64?text=TV")
-                }
+
               />
             )}
             <div className="sb-card__match-detail">
