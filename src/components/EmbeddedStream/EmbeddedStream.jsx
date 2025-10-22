@@ -91,12 +91,12 @@ export default function EmbeddedStream({ src, showLoader }) {
       <div className="embedded-stream__blur-corner-fullscreen" />
 
       <div className="embedded-stream__clickBlocker" />
-      {/* {(showLoader || isResizing) && (
+      {(showLoader || isResizing) && (
         <div className="embedded-stream__loader">
           <div className="embedded-stream__spinner" />
           <p className="embedded-stream__loader-text">...טוען ערוץ</p>
         </div>
-      )} */}
+      )}
     </div>
   )
 }
