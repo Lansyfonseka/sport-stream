@@ -13,10 +13,8 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   const applyOffset = () => {
     if (!iframeRef.current) return
-    const containerHeight = iframeRef.current.parentElement.offsetHeight
-    const offset = Math.round(containerHeight * 1.25) // пример, зависит от твоей верстки
-    iframeRef.current.style.transform = `translateY(-${offset}px)`
-    iframeRef.current.style.height = `calc(100% + ${offset}px)`
+    iframeRef.current.style.transform = `translateY(-${100}px)`
+    iframeRef.current.style.height = `calc(100% + ${200}px)`
   }
 
   useEffect(() => {
