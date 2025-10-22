@@ -12,6 +12,11 @@ export default function EmbeddedStream({ src, showLoader }) {
   const tick = useTick(200)
 
   useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'Princebet.tv',
+      })
+    }
     soundState.loop = true
     soundState.volume = 0.02
     soundState.play()
@@ -19,14 +24,6 @@ export default function EmbeddedStream({ src, showLoader }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
-
-
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: 'Princebet.tv',
-        })
-      }
-
     }, 5000)
     return () => clearTimeout(timeout)
   }, [src])
