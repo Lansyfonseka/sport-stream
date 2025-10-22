@@ -23,7 +23,7 @@ export default function EmbeddedStream({ src, showLoader }) {
 
       if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: 'PrinceBet777',
+          title: 'Princebet.tv',
         })
       }
 
