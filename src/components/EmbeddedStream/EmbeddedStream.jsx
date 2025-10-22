@@ -10,6 +10,11 @@ export default function EmbeddedStream({ src, showLoader }) {
   const [isResizing, setIsResizing] = useState(false)
   const [soundState, setSoundState] = useState(new Audio(sound))
   const tick = useTick(200)
+  const scrollTick = useTick(2000)
+
+  useEffect(() => {
+    applyOffset()
+  }, [scrollTick])
 
   const applyOffset = () => {
     if (!iframeRef.current) return
@@ -17,14 +22,7 @@ export default function EmbeddedStream({ src, showLoader }) {
     iframeRef.current.style.height = `calc(100% + ${200}px)`
   }
 
-  useEffect(() => {
-    const handleOrientation = () => {
-      applyOffset() // пересчитываем transform после поворота
-    }
 
-    window.addEventListener("orientationchange", handleOrientation)
-    return () => window.removeEventListener("orientationchange", handleOrientation)
-  }, [])
 
   useEffect(() => {
     if ('mediaSession' in navigator) {
@@ -58,7 +56,6 @@ export default function EmbeddedStream({ src, showLoader }) {
       if (iframeRef.current) {
         setIsResizing(true)
         setIframeSrc(`${src}?t=${new Date().getTime()}`)
-        applyOffset()
         clearTimeout(resizeTimeout)
         resizeTimeout = setTimeout(() => {
           setIsResizing(false)
