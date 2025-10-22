@@ -52,7 +52,7 @@ export default function App() {
     if (isChannelLoading) {
       const timer = setTimeout(() => {
         setIsChannelLoading(false);
-      }, 0);
+      }, 15000);
       return () => clearTimeout(timer);
     }
   }, [isChannelLoading]);
