@@ -81,7 +81,7 @@ export default function EmbeddedStream({ src, showLoader }) {
               שידור לא זמין במכשירי iOS
             </p>
             <p className="embedded-stream__ios-block-subtext">
-              אנא השתמש במכשיר אחר לצפייה
+              אנא השתמש במכשיר אחר לצפייה. מומלץ להשתמש במכשיר אנדרואיד.
             </p>
           </div>
         </div>
