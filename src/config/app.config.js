@@ -2,7 +2,7 @@ const baseFrontUrlDev = 'http://localhost:5173'
 const baseBackUrlDev = 'http://localhost:3005'
 
 const baseFrontUrlProd = 'https://princebet.tv'
-const baseBackUrlProd = 'https://princebet.tv:3005'
+const baseBackUrlProd = 'https://princebet.tv/api'
 
 const USE_PRODUCTION = true
 
