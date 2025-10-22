@@ -10,7 +10,7 @@ export default function EmbeddedStream({ src, showLoader }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`);
-    }, 0);
+    }, 5000);
     return () => clearTimeout(timeout);
   }, [src]);
 
