@@ -16,9 +16,14 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   useEffect(() => {
     let resizeTimeout;
+    let lastWidth = window.innerWidth;
 
     const handleResize = () => {
       if (document.fullscreenElement) return;
+
+      const currentWidth = window.innerWidth;
+      if (currentWidth === lastWidth) return;
+      lastWidth = currentWidth;
 
       if (iframeRef.current) {
         setIsResizing(true);
