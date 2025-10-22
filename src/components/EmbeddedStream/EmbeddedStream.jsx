@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { useTick } from '../../hooks/useTick'
 import sound from './../../assets/silent.wav'
 import "./_embedded-stream.scss"
 
@@ -8,21 +9,24 @@ export default function EmbeddedStream({ src, showLoader }) {
   const containerRef = useState(null)
   const [isResizing, setIsResizing] = useState(false)
   const [soundState, setSoundState] = useState(new Audio(sound))
+  const tick = useTick(1000)
 
-
-
+  useEffect(() => {
+    soundState.loop = true
+    soundState.volume = 0.02
+    soundState.play()
+  }, [tick])
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
-      soundState.loop = true
+
 
       if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
           title: 'PrinceBet777',
         })
       }
-      soundState.volume = 0.02
-      soundState.play()
+
     }, 5000)
     return () => clearTimeout(timeout)
   }, [src])
