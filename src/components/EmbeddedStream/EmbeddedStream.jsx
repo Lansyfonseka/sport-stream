@@ -11,6 +11,23 @@ export default function EmbeddedStream({ src, showLoader }) {
   const [soundState, setSoundState] = useState(new Audio(sound))
   const tick = useTick(200)
 
+  const applyOffset = () => {
+    if (!iframeRef.current) return
+    const containerHeight = iframeRef.current.parentElement.offsetHeight
+    const offset = Math.round(containerHeight * 1.25) // пример, зависит от твоей верстки
+    iframeRef.current.style.transform = `translateY(-${offset}px)`
+    iframeRef.current.style.height = `calc(100% + ${offset}px)`
+  }
+
+  useEffect(() => {
+    const handleOrientation = () => {
+      applyOffset() // пересчитываем transform после поворота
+    }
+
+    window.addEventListener("orientationchange", handleOrientation)
+    return () => window.removeEventListener("orientationchange", handleOrientation)
+  }, [])
+
   useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -43,7 +60,7 @@ export default function EmbeddedStream({ src, showLoader }) {
       if (iframeRef.current) {
         setIsResizing(true)
         setIframeSrc(`${src}?t=${new Date().getTime()}`)
-
+        applyOffset()
         clearTimeout(resizeTimeout)
         resizeTimeout = setTimeout(() => {
           setIsResizing(false)
@@ -76,12 +93,12 @@ export default function EmbeddedStream({ src, showLoader }) {
       <div className="embedded-stream__blur-corner-fullscreen" />
 
       <div className="embedded-stream__clickBlocker" />
-      {(showLoader || isResizing) && (
+      {/* {(showLoader || isResizing) && (
         <div className="embedded-stream__loader">
           <div className="embedded-stream__spinner" />
           <p className="embedded-stream__loader-text">...טוען ערוץ</p>
         </div>
-      )}
+      )} */}
     </div>
   )
 }
