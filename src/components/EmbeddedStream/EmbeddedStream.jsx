@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import sound from './../../assets/sound.mp3'
+import sound from './../../assets/silent.wav'
 import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
@@ -7,17 +7,26 @@ export default function EmbeddedStream({ src, showLoader }) {
   const [iframeSrc, setIframeSrc] = useState(src)
   const containerRef = useState(null)
   const [isResizing, setIsResizing] = useState(false)
+  const [soundState, setSoundState] = useState(new Audio(sound))
 
-  // Проверка на iOS
-  const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
+      soundState.loop = true
+
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: 'PrinceBet777',
+        })
+      }
+      soundState.volume = 0.02
+      soundState.play()
     }, 5000)
     return () => clearTimeout(timeout)
   }, [src])
+
 
   useEffect(() => {
     let resizeTimeout
@@ -64,7 +73,7 @@ export default function EmbeddedStream({ src, showLoader }) {
         <img src="/princebet77_logo.svg" />
       </div>
       <div className="embedded-stream__blur-corner-fullscreen" />
-      <audio loop muted autoplay src={sound} />
+
       <div className="embedded-stream__clickBlocker" />
       {(showLoader || isResizing) && (
         <div className="embedded-stream__loader">
