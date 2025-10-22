@@ -1,52 +1,53 @@
-import { useEffect, useRef, useState } from "react";
-import "./_embedded-stream.scss";
+import { useEffect, useRef, useState } from "react"
+import sound from './../../assets/sound.mp3'
+import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
-  const iframeRef = useRef(null);
-  const [iframeSrc, setIframeSrc] = useState(src);
-  const containerRef = useState(null);
-  const [isResizing, setIsResizing] = useState(false);
+  const iframeRef = useRef(null)
+  const [iframeSrc, setIframeSrc] = useState(src)
+  const containerRef = useState(null)
+  const [isResizing, setIsResizing] = useState(false)
 
   // Проверка на iOS
   const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIframeSrc(`${src}?t=${new Date().getTime()}`);
-    }, 5000);
-    return () => clearTimeout(timeout);
-  }, [src]);
+      setIframeSrc(`${src}?t=${new Date().getTime()}`)
+    }, 5000)
+    return () => clearTimeout(timeout)
+  }, [src])
 
   useEffect(() => {
-    let resizeTimeout;
-    let lastWidth = window.innerWidth;
+    let resizeTimeout
+    let lastWidth = window.innerWidth
 
     const handleResize = () => {
-      if (document.fullscreenElement) return;
+      if (document.fullscreenElement) return
 
-      const currentWidth = window.innerWidth;
-      if (currentWidth === lastWidth) return;
-      lastWidth = currentWidth;
+      const currentWidth = window.innerWidth
+      if (currentWidth === lastWidth) return
+      lastWidth = currentWidth
 
       if (iframeRef.current) {
-        setIsResizing(true);
-        setIframeSrc(`${src}?t=${new Date().getTime()}`);
+        setIsResizing(true)
+        setIframeSrc(`${src}?t=${new Date().getTime()}`)
 
-        clearTimeout(resizeTimeout);
+        clearTimeout(resizeTimeout)
         resizeTimeout = setTimeout(() => {
-          setIsResizing(false);
-        }, 3000);
+          setIsResizing(false)
+        }, 3000)
       }
-    };
+    }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(resizeTimeout);
-    };
-  }, [src]);
+      window.removeEventListener("resize", handleResize)
+      clearTimeout(resizeTimeout)
+    }
+  }, [src])
 
   return (
     <div ref={containerRef} className="embedded-stream">
@@ -65,7 +66,7 @@ export default function EmbeddedStream({ src, showLoader }) {
             <img src="/princebet77_logo.svg" />
           </div>
           <div className="embedded-stream__blur-corner-fullscreen" />
-
+          <audio loop muted autoplay src={sound} />
           <div className="embedded-stream__clickBlocker" />
           {(showLoader || isResizing) && (
             <div className="embedded-stream__loader">
@@ -87,5 +88,5 @@ export default function EmbeddedStream({ src, showLoader }) {
         </div>
       )}
     </div>
-  );
+  )
 }
