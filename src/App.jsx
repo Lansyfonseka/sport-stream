@@ -47,7 +47,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Таймер для скрытия loader через 5 секунд
+  // Таймер для скрытия loader через 15 секунд
   useEffect(() => {
     if (isChannelLoading) {
       const timer = setTimeout(() => {
