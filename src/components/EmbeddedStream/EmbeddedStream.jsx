@@ -7,6 +7,10 @@ export default function EmbeddedStream({ src, showLoader }) {
   const containerRef = useState(null);
   const [isResizing, setIsResizing] = useState(false);
 
+  // Проверка на iOS
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`);
@@ -46,25 +50,40 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   return (
     <div ref={containerRef} className="embedded-stream">
-      <iframe
-        ref={iframeRef}
-        src={iframeSrc}
-        className="embedded-stream__iframe"
-        title="Embedded Stream"
-        allowFullScreen
-        scrolling="no"
-        allow="autoplay; fullscreen"
-      />
-      <div className="embedded-stream__blur-corner">
-        <img src="/princebet77_logo.svg" />
-      </div>
-      <div className="embedded-stream__blur-corner-fullscreen" />
+      {!isIOS ? (
+        <>
+          <iframe
+            ref={iframeRef}
+            src={iframeSrc}
+            className="embedded-stream__iframe"
+            title="Embedded Stream"
+            allowFullScreen
+            scrolling="no"
+            allow="autoplay; fullscreen"
+          />
+          <div className="embedded-stream__blur-corner">
+            <img src="/princebet77_logo.svg" />
+          </div>
+          <div className="embedded-stream__blur-corner-fullscreen" />
 
-      <div className="embedded-stream__clickBlocker" />
-      {(showLoader || isResizing) && (
-        <div className="embedded-stream__loader">
-          <div className="embedded-stream__spinner" />
-          <p className="embedded-stream__loader-text">...טוען ערוץ</p>
+          <div className="embedded-stream__clickBlocker" />
+          {(showLoader || isResizing) && (
+            <div className="embedded-stream__loader">
+              <div className="embedded-stream__spinner" />
+              <p className="embedded-stream__loader-text">...טוען ערוץ</p>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="embedded-stream__ios-block">
+          <div className="embedded-stream__ios-block-content">
+            <p className="embedded-stream__ios-block-text">
+              שידור לא זמין במכשירי iOS
+            </p>
+            <p className="embedded-stream__ios-block-subtext">
+              אנא השתמש במכשיר אחר לצפייה
+            </p>
+          </div>
         </div>
       )}
     </div>

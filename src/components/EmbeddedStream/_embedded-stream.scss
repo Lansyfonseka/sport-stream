@@ -192,6 +192,46 @@
     font-size: 18px;
     font-weight: 500;
   }
+
+  &__ios-block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+  }
+
+  &__ios-block-content {
+    text-align: center;
+    padding: 40px;
+  }
+
+  &__ios-block-text {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    direction: rtl;
+
+    @media screen and (max-width: 600px) {
+      font-size: 20px;
+    }
+  }
+
+  &__ios-block-subtext {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    direction: rtl;
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
 }
 
 @keyframes spin {
