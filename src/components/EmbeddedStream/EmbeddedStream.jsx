@@ -70,6 +70,7 @@ export default function EmbeddedStream({ src, showLoader }) {
     }
   }, [src])
 
+
   return (
     <div className="embedded-stream">
       <div ref={containerRef} className="embedded-stream__clickBlocker" />
