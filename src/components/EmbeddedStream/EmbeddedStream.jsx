@@ -1,43 +1,43 @@
-import { useEffect, useRef, useState } from "react";
-import "./_embedded-stream.scss";
-
+import { useEffect, useRef, useState } from "react"
+import sound from './../../assets/sound.mp3'
+import "./_embedded-stream.scss"
 export default function EmbeddedStream({ src, showLoader }) {
-  const iframeRef = useRef(null);
-  const [iframeSrc, setIframeSrc] = useState(src);
-  const containerRef = useState(null);
-  const [isResizing, setIsResizing] = useState(false);
+  const iframeRef = useRef(null)
+  const [iframeSrc, setIframeSrc] = useState(src)
+  const containerRef = useState(null)
+  const [isResizing, setIsResizing] = useState(false)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIframeSrc(`${src}?t=${new Date().getTime()}`);
-    }, 5000);
-    return () => clearTimeout(timeout);
-  }, [src]);
+      setIframeSrc(`${src}?t=${new Date().getTime()}`)
+    }, 5000)
+    return () => clearTimeout(timeout)
+  }, [src])
 
   useEffect(() => {
-    let resizeTimeout;
+    let resizeTimeout
 
     const handleResize = () => {
-      if (document.fullscreenElement) return;
+      if (document.fullscreenElement) return
 
       if (iframeRef.current) {
-        setIsResizing(true);
-        setIframeSrc(`${src}?t=${new Date().getTime()}`);
+        setIsResizing(true)
+        setIframeSrc(`${src}?t=${new Date().getTime()}`)
 
-        clearTimeout(resizeTimeout);
+        clearTimeout(resizeTimeout)
         resizeTimeout = setTimeout(() => {
-          setIsResizing(false);
-        }, 3000);
+          setIsResizing(false)
+        }, 3000)
       }
-    };
+    }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(resizeTimeout);
-    };
-  }, [src]);
+      window.removeEventListener("resize", handleResize)
+      clearTimeout(resizeTimeout)
+    }
+  }, [src])
 
   return (
     <div ref={containerRef} className="embedded-stream">
@@ -50,6 +50,7 @@ export default function EmbeddedStream({ src, showLoader }) {
         scrolling="no"
         allow="autoplay; fullscreen"
       />
+      <audio src={sound} autoPlay loop muted />
       <div className="embedded-stream__blur-corner">
         <img src="/princebet77_logo.svg" />
       </div>
@@ -63,5 +64,5 @@ export default function EmbeddedStream({ src, showLoader }) {
         </div>
       )}
     </div>
-  );
+  )
 }
