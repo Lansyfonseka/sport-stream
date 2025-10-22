@@ -9,7 +9,7 @@ export default function EmbeddedStream({ src, showLoader }) {
   const containerRef = useState(null)
   const [isResizing, setIsResizing] = useState(false)
   const [soundState, setSoundState] = useState(new Audio(sound))
-  const tick = useTick(1000)
+  const tick = useTick(200)
 
   useEffect(() => {
     soundState.loop = true
