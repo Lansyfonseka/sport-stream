@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react'
 
-export const useTick = (time) => {
-	const [tickRef, setTickRef] = useState(false)
-	useEffect(() => {
-		const id = setInterval(() => setTickRef(prev => !prev), time)
-		return () => clearInterval(id)
-	})
+export function useTickWithAction(
+	time,
+	callback,
+	args
+) {
+	const [state, setState] = useState(() => callback(...args))
 
-	return tickRef
+	useEffect(() => {
+		const id = setInterval(() => {
+			setState(callback(...args))
+		}, time)
+
+		return () => clearInterval(id)
+	}, [time, callback, ...args])
+
+	return state
 }

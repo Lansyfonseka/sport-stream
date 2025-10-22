@@ -1,39 +1,36 @@
 import { useEffect, useRef, useState } from "react"
-import { useTick } from '../../hooks/useTick'
+import { useTickWithAction } from '../../hooks/useTick'
 import sound from './../../assets/silent.wav'
 import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
   const iframeRef = useRef(null)
   const [iframeSrc, setIframeSrc] = useState(src)
-  const containerRef = useState(null)
   const [isResizing, setIsResizing] = useState(false)
   const [soundState, setSoundState] = useState(new Audio(sound))
-  const tick = useTick(200)
-  const scrollTick = useTick(2000)
 
-  useEffect(() => {
-    applyOffset()
-  }, [scrollTick])
+  const [style, setStyle] = useState({ transform: "translateY(0px)", height: "200px" })
 
-  const applyOffset = () => {
-    if (!iframeRef.current) return
-    iframeRef.current.style.transform = `translateY(-${100}px)`
-    iframeRef.current.style.height = `calc(100% + ${200}px)`
-  }
+  function play(sound) {
 
-
-
-  useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: 'Princebet.tv',
       })
     }
-    soundState.loop = true
-    soundState.volume = 0.02
-    soundState.play()
-  }, [tick])
+    sound.loop = true
+    sound.volume = 0.02
+    sound.play()
+  }
+  const applyOffset = (iframe) => {
+    if (!iframe.current) return
+    setStyle({ transform: "translateY(-100px)", height: "calc(100% + 200px)" })
+  }
+  useTickWithAction(2000, applyOffset, [iframeRef])
+  useTickWithAction(200, play, [soundState])
+
+
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIframeSrc(`${src}?t=${new Date().getTime()}`)
@@ -72,10 +69,11 @@ export default function EmbeddedStream({ src, showLoader }) {
   }, [src])
 
   return (
-    <div ref={containerRef} className="embedded-stream">
+    <div className="embedded-stream">
       <iframe
         ref={iframeRef}
         src={iframeSrc}
+        style={style}
         className="embedded-stream__iframe"
         title="Embedded Stream"
         allowFullScreen
