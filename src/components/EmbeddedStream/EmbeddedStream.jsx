@@ -51,40 +51,25 @@ export default function EmbeddedStream({ src, showLoader }) {
 
   return (
     <div ref={containerRef} className="embedded-stream">
-      {!isIOS ? (
-        <>
-          <iframe
-            ref={iframeRef}
-            src={iframeSrc}
-            className="embedded-stream__iframe"
-            title="Embedded Stream"
-            allowFullScreen
-            scrolling="no"
-            allow="autoplay; fullscreen"
-          />
-          <div className="embedded-stream__blur-corner">
-            <img src="/princebet77_logo.svg" />
-          </div>
-          <div className="embedded-stream__blur-corner-fullscreen" />
-          <audio loop muted autoplay src={sound} />
-          <div className="embedded-stream__clickBlocker" />
-          {(showLoader || isResizing) && (
-            <div className="embedded-stream__loader">
-              <div className="embedded-stream__spinner" />
-              <p className="embedded-stream__loader-text">...טוען ערוץ</p>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="embedded-stream__ios-block">
-          <div className="embedded-stream__ios-block-content">
-            <p className="embedded-stream__ios-block-text">
-              שידור לא זמין במכשירי iOS
-            </p>
-            <p className="embedded-stream__ios-block-subtext">
-              אנא השתמש במכשיר אחר לצפייה. מומלץ להשתמש במכשיר אנדרואיד.
-            </p>
-          </div>
+      <iframe
+        ref={iframeRef}
+        src={iframeSrc}
+        className="embedded-stream__iframe"
+        title="Embedded Stream"
+        allowFullScreen
+        scrolling="no"
+        allow="autoplay; fullscreen"
+      />
+      <div className="embedded-stream__blur-corner">
+        <img src="/princebet77_logo.svg" />
+      </div>
+      <div className="embedded-stream__blur-corner-fullscreen" />
+      <audio loop muted autoplay src={sound} />
+      <div className="embedded-stream__clickBlocker" />
+      {(showLoader || isResizing) && (
+        <div className="embedded-stream__loader">
+          <div className="embedded-stream__spinner" />
+          <p className="embedded-stream__loader-text">...טוען ערוץ</p>
         </div>
       )}
     </div>
