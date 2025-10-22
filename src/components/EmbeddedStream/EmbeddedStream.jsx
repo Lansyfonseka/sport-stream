@@ -5,6 +5,7 @@ import "./_embedded-stream.scss"
 
 export default function EmbeddedStream({ src, showLoader }) {
   const iframeRef = useRef(null)
+  const containerRef = useRef(null)
   const [iframeSrc, setIframeSrc] = useState(src)
   const [isResizing, setIsResizing] = useState(false)
   const [soundState, setSoundState] = useState(new Audio(sound))
@@ -12,7 +13,6 @@ export default function EmbeddedStream({ src, showLoader }) {
   const [style, setStyle] = useState({ transform: "translateY(0px)", height: "200px" })
 
   function play(sound) {
-
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: 'Princebet.tv',
@@ -70,8 +70,69 @@ export default function EmbeddedStream({ src, showLoader }) {
     }
   }, [src])
 
+  useEffect(() => {
+    if (!containerRef.current) return
+    const container = containerRef.current
+
+    let lastClickTime = 0
+    const DOUBLE_CLICK_DELAY = 300 // мс
+
+    // 🔹 Перенаправляем hover-события вниз
+    const forwardHoverEvent = (e) => {
+
+
+      container.style.pointerEvents = 'none'
+      setTimeout(() => {
+        container.style.pointerEvents = 'auto'
+      }, 100)
+
+    }
+
+    const handleClick = (e) => {
+      const now = Date.now()
+
+      if (now - lastClickTime < DOUBLE_CLICK_DELAY) {
+        e.preventDefault()
+        e.stopPropagation()
+        console.log('Двойной клик заблокирован')
+      } else {
+        // 🔹 Пропускаем одиночный клик “вниз”
+        container.style.pointerEvents = 'none'
+        setTimeout(() => {
+          container.style.pointerEvents = 'auto'
+        }, 100)
+      }
+
+      lastClickTime = now
+    }
+
+    container.addEventListener('mousedown', handleClick)
+    container.addEventListener('dblclick', (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log('Двойной клик заблокирован через dblclick')
+    })
+
+    // наведение и движение мыши
+    container.addEventListener('mousemove', forwardHoverEvent)
+    container.addEventListener('mouseenter', forwardHoverEvent)
+    container.addEventListener('mouseleave', forwardHoverEvent)
+    container.addEventListener('mouseover', forwardHoverEvent)
+
+    return () => {
+      container.removeEventListener('mousedown', handleClick)
+      container.removeEventListener('dblclick', handleClick)
+      container.removeEventListener('mousemove', forwardHoverEvent)
+      container.removeEventListener('mouseenter', forwardHoverEvent)
+      container.removeEventListener('mouseleave', forwardHoverEvent)
+      container.removeEventListener('mouseover', forwardHoverEvent)
+    }
+  }, [containerRef])
+
   return (
     <div className="embedded-stream">
+      <div ref={containerRef} className="embedded-stream__clickBlocker" />
+
       <iframe
         ref={iframeRef}
         src={iframeSrc}
@@ -87,7 +148,6 @@ export default function EmbeddedStream({ src, showLoader }) {
       </div>
       <div className="embedded-stream__blur-corner-fullscreen" />
 
-      <div className="embedded-stream__clickBlocker" />
       {(showLoader || isResizing) && (
         <div className="embedded-stream__loader">
           <div className="embedded-stream__spinner" />
