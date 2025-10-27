@@ -1,82 +1,82 @@
-import { useEffect, useState } from "react";
-import AdBannerImg from "./assets/middle-banner.png";
-import Channels from "./sections/Channels/Channels";
-import Footer from "./sections/Footer/Footer";
-import Header from "./sections/Header/Header";
-import Player from "./sections/Player/Player";
-import PreHeader from "./sections/PreHeader/PreHeader";
-import SportsBrowser from "./sections/StreamsList/SportsBrowser";
+import { useEffect, useState } from "react"
+import AdBannerImg from "./assets/middle-banner.png"
+import Channels from "./sections/Channels/Channels"
+import Footer from "./sections/Footer/Footer"
+import Header from "./sections/Header/Header"
+import Player from "./sections/Player/Player"
+import PreHeader from "./sections/PreHeader/PreHeader"
+import SportsBrowser from "./sections/StreamsList/SportsBrowser"
 
-import AdBanner from "./components/AdBanner/AdBanner";
-import Banner from "./components/Banner/Banner";
-import EmbeddedStream from "./components/EmbeddedStream/EmbeddedStream";
-import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu";
-import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches";
-import { AppConfig } from "./config/app.config";
-import { useIPTVData } from "./hooks/useIPTVData";
-import Offers from "./sections/Offers/Offers";
+import AdBanner from "./components/AdBanner/AdBanner"
+import Banner from "./components/Banner/Banner"
+import GlobalContextMenu from "./components/GlobalContextMenu/GlobalContextMenu"
+import UpcomingMatches from "./components/UpcomingMatches/UpcomingMatches"
+import { AppConfig } from "./config/app.config"
+import { useIPTVData } from "./hooks/useIPTVData"
+import Offers from "./sections/Offers/Offers"
 
 export default function App() {
-  const { data, loading, error } = useIPTVData();
-  console.log(data);
-  const [selectedStream, setSelectedStream] = useState(null);
-  const [selectedChannel, setSelectedChannel] = useState(null);
-  const [isChannelLoading, setIsChannelLoading] = useState(false);
-  const [isScheduledMatch, setIsScheduledMatch] = useState(false);
-  const [showInitialMessage, setShowInitialMessage] = useState(true);
+  const { data, loading, error } = useIPTVData()
+  console.log(data)
+  const [selectedStream, setSelectedStream] = useState(null)
+  const [selectedChannel, setSelectedChannel] = useState(null)
+  const [isChannelLoading, setIsChannelLoading] = useState(false)
+  const [isScheduledMatch, setIsScheduledMatch] = useState(false)
+  const [showInitialMessage, setShowInitialMessage] = useState(true)
 
   const handleStreamSelect = (match) => {
-    setShowInitialMessage(false);
+    setShowInitialMessage(false)
     if (match.status === "scheduled") {
-      setIsScheduledMatch(true);
-      setSelectedChannel(null);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsScheduledMatch(true)
+      setSelectedChannel(null)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     } else {
-      const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${match.stream_url}`;
-      setSelectedStream(proxyUrl);
-      setSelectedChannel(null);
-      setIsScheduledMatch(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${match.stream_url}`
+      setSelectedStream(proxyUrl)
+      setSelectedChannel(null)
+      setIsScheduledMatch(false)
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
-  };
+  }
 
   const handleChannelSelect = (channelUrl) => {
-    setShowInitialMessage(false);
-    setSelectedChannel(channelUrl);
-    setIsChannelLoading(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    setShowInitialMessage(false)
+    setSelectedChannel(channelUrl)
+    setSelectedStream(null)
+    setIsChannelLoading(true)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
   // Таймер для скрытия loader через 15 секунд
   useEffect(() => {
     if (isChannelLoading) {
       const timer = setTimeout(() => {
-        setIsChannelLoading(false);
-      }, 15000);
-      return () => clearTimeout(timer);
+        setIsChannelLoading(false)
+      }, 15000)
+      return () => clearTimeout(timer)
     }
-  }, [isChannelLoading]);
+  }, [isChannelLoading])
 
   useEffect(() => {
     const handleMarginClick = (e) => {
-      if (window.innerWidth <= 768) return;
+      if (window.innerWidth <= 768) return
 
-      if (e.button !== 0) return;
+      if (e.button !== 0) return
 
-      const target = e.target;
+      const target = e.target
       if (target.tagName === "HTML" || target.tagName === "BODY") {
         window.open(
           "https://heylink.me/PrinceBet77",
           "_blank",
           "noopener,noreferrer"
-        );
+        )
       }
-    };
+    }
 
-    document.documentElement.addEventListener("click", handleMarginClick);
+    document.documentElement.addEventListener("click", handleMarginClick)
     return () =>
-      document.documentElement.removeEventListener("click", handleMarginClick);
-  }, []);
+      document.documentElement.removeEventListener("click", handleMarginClick)
+  }, [])
 
   return (
     <>
@@ -89,7 +89,7 @@ export default function App() {
 
         {/* Показываем iframe если выбран канал, иначе плеер */}
         {selectedChannel ? (
-          <EmbeddedStream src={selectedChannel} showLoader={isChannelLoading} />
+          <Player src={selectedChannel} className="hls-player--fluid" />
         ) : (
           <div
             style={{
@@ -154,5 +154,5 @@ export default function App() {
       </main>
       <Footer />
     </>
-  );
+  )
 }
