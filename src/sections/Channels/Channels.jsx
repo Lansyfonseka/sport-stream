@@ -26,57 +26,57 @@ export default function Channels({ onChannelSelect }) {
     {
       channelName: "Yes 1",
       channelLogo: ChannelYes1,
-      url: "https://princebet.tv/hls/Sport_1/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_1/index.m3u8",
     },
     {
       channelName: "Yes 2",
       channelLogo: ChannelYes2,
-      url: "https://princebet.tv/hls/Sport_2/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_2/index.m3u8",
     },
     {
       channelName: "One 1",
       channelLogo: ChannelOne1,
-      url: "https://princebet.tv/hls/ONE_HD/index.m3u8",
+      url: "https://princebet.tv/api/hls/ONE_HD/index.m3u8",
     },
     {
       channelName: "One 2",
       channelLogo: ChannelOne2,
-      url: "https://princebet.tv/hls/ONE2_HD/index.m3u8",
+      url: "https://princebet.tv/api/hls/ONE2_HD/index.m3u8",
     },
     {
       channelName: "Yes 3",
       channelLogo: ChannelYes3,
-      url: "https://princebet.tv/hls/Sport_3/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_3/index.m3u8",
     },
     {
       channelName: "Yes 4",
       channelLogo: ChannelYes4,
-      url: "https://princebet.tv/hls/Sport_4/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_4/index.m3u8",
     },
     {
       channelName: "5 Live",
       channelLogo: ChannelYes5Live,
-      url: "https://princebet.tv/hls/Sport_5_Live/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_5_Live/index.m3u8",
     },
     {
       channelName: "Yes 5",
       channelLogo: ChannelYes5,
-      url: "https://princebet.tv/hls/Sport_5/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_5/index.m3u8",
     },
     {
       channelName: "5 Plus",
       channelLogo: ChannelYes5Plus,
-      url: "https://princebet.tv/hls/Sport_5_PLUS/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_5_PLUS/index.m3u8",
     },
     {
       channelName: "5 Gold",
       channelLogo: Channel5Gold,
-      url: "https://princebet.tv/hls/Sport_5_GOLD/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_5_GOLD/index.m3u8",
     },
     {
       channelName: "5 Stars",
       channelLogo: ChannelYes5Stars,
-      url: "https://princebet.tv/hls/Sport_5_Stars/index.m3u8",
+      url: "https://princebet.tv/api/hls/Sport_5_Stars/index.m3u8",
     },
   ]
 
