@@ -3,6 +3,10 @@ import { useEffect, useRef } from "react"
 import ErrorLoadMedia from "../../assets/error-loading-media.webp"
 import "./_player.scss"
 
+/**
+ * Универсальный HLS-плеер с автоматическим восстановлением
+ * и обработкой битых сегментов. Работает как в Live, так и VOD.
+ */
 export default function HlsPlayer({
   src,
   className = "",
@@ -21,55 +25,95 @@ export default function HlsPlayer({
   useEffect(() => {
     const video = videoRef.current
     if (!video || !src) return
-
-    // конфигурация по умолчанию, если не передана снаружи
-    const defaultHlsConfig = {
-      enableWorker: true,                // использует web worker для декодирования
-      lowLatencyMode: true,              // уменьшает задержку для live
-      backBufferLength: 90,              // хранить не более 90 сек в буфере
-      liveSyncDuration: 3,               // держать отставание в 3 сек от live edge
-      liveMaxLatencyDuration: 10,        // максимум 10 сек от live edge
+    console.log('asdasdasda')
+    // 🧠 Конфигурация HLS
+    const defaultConfig = {
+      enableWorker: true,
+      lowLatencyMode: true,
+      backBufferLength: 60,
+      liveSyncDuration: 3,
+      liveMaxLatencyDuration: 10,
+      fragLoadingMaxRetry: 3,       // макс. попыток загрузки фрагмента
+      fragLoadingRetryDelay: 1000,  // задержка между попытками
+      manifestLoadingRetryDelay: 2000,
+      maxFragLookUpTolerance: 0.2,
+      startPosition: -1,
+      autoStartLoad: true,
       xhrSetup: (xhr) => {
         xhr.withCredentials = false
       },
       debug: false,
     }
+    console.log('asdasdasda')
+    const config = { ...defaultConfig, ...hlsConfig }
 
-    const config = { ...defaultHlsConfig, ...hlsConfig }
+    // ⚙️ Инициализация Hls.js
+    if (Hls.isSupported()) {
+      console.log('supported')
+      const hls = new Hls(config)
+      hlsRef.current = hls
 
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = src
-      video.load()
-      video.play().catch(() => { })
-    } else if (Hls.isSupported()) {
-      if (hlsRef.current) {
-        hlsRef.current.destroy()
-      }
-      hlsRef.current = new Hls(config)
-      hlsRef.current.attachMedia(video)
-      hlsRef.current.on(Hls.Events.MEDIA_ATTACHED, () => {
-        hlsRef.current.loadSource(src)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+        console.log("[HLS] Media attached")
+        hls.loadSource(src)
       })
 
-      // обработка ошибок
-      hlsRef.current.on(Hls.Events.ERROR, (event, data) => {
-        console.warn("HLS Error:", data.type, data.details, data)
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hlsRef.current.startLoad()
-              break
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hlsRef.current.recoverMediaError()
-              break
-            default:
-              hlsRef.current.destroy()
-              break
-          }
+      hls.on(Hls.Events.MANIFEST_PARSED, (_, data) => {
+        console.log(`[HLS] Манифест загружен (${data.levels.length} качеств)`)
+        if (autoPlay) {
+          video.play().catch((err) => console.warn("Автоплей заблокирован:", err))
         }
       })
+      hls.on(Hls.Events.FRAG_LOADED, (_e, d) => console.log('FRAG_LOADED', d.frag?.sn, d.stats?.loaded))
+      hls.on(Hls.Events.BUFFER_APPENDING, (_e, d) => console.log('BUFFER_APPENDING', d.type, d.startPTS, d.endPTS))
+      // 🚑 Обработка ошибок
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        const { type, details, fatal } = data
+        console.warn("[HLS ERROR]", type, details)
+
+        if (fatal) {
+          switch (type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              console.warn("[HLS] Network error → повторная загрузка")
+              hls.startLoad()
+              break
+
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              console.warn("[HLS] Media error → восстановление")
+              hls.recoverMediaError()
+              break
+
+            case Hls.ErrorTypes.OTHER_ERROR:
+              console.warn("[HLS] Другие ошибки → перезапуск плеера")
+              hls.destroy()
+              setTimeout(() => {
+                const newHls = new Hls(config)
+                newHls.attachMedia(video)
+                newHls.loadSource(src)
+                hlsRef.current = newHls
+              }, 1000)
+              break
+
+            default:
+              console.error("[HLS] Неустранимая ошибка, уничтожаем")
+              hls.destroy()
+              break
+          }
+        } else if (details === "fragLoadError" || details === "bufferAppendError") {
+          // ⛔️ Битый фрагмент — пропускаем
+          console.warn("[HLS] Битый сегмент — пропуск")
+          try {
+            const current = video.currentTime
+            video.currentTime = current + 6 // перейти на следующий кусок
+          } catch { }
+        }
+      })
+    } else {
+      console.log('NOT')
     }
 
+    // 🧹 Очистка
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy()
@@ -83,7 +127,7 @@ export default function HlsPlayer({
         } catch { }
       }
     }
-  }, [src, hlsConfig])
+  }, [src])
 
   return (
     <div className={`hls-player ${className}`}>
