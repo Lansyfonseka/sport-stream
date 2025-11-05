@@ -33,34 +33,18 @@ export default function HlsPlayer({
     // базовый «толстый» конфиг
     const defaultConfig = {
       enableWorker: true,
-      // для «толстого» буфера LL лучше выключить:
       lowLatencyMode: false,
-
-      // сколько секунд плеер старается иметь в запасе
       maxBufferLength: 40,           // можно 20–60
-      // верхний предел буфера (сек) — больше запас
       maxMaxBufferLength: 180,       // можно 120–300
-      // при желании лимит по байтам (0 — дефолт hls.js ~60 МБ)
-      // maxBufferSize: 0,
-
-      // держимся подальше от live-края, чтобы успевать подгружать
-      liveSyncDuration: 10,          // целевая задержка от live-края
-      liveMaxLatencyDuration: 20,    // максимум, прежде чем «догонять»
+      liveSyncDuration: 15,          // целевая задержка от live-края (15 секунд)
+      liveMaxLatencyDuration: 30,    // максимум, прежде чем «догонять» (30 секунд)
       liveDurationInfinity: true,
-
-      // начинаем загрузку вручную (для пребуферинга)
       autoStartLoad: false,
-      startFragPrefetch: true,       // первым делом тянем первый фрагмент
-
-      // ретраи сетки
+      startFragPrefetch: true,
       fragLoadingMaxRetry: 3,
       fragLoadingRetryDelay: 1200,
       manifestLoadingRetryDelay: 2000,
-
-      // толеранс поиска фрагмента
       maxFragLookUpTolerance: 0.3,
-
-      // позволим переопределять снаружи
       ...bufferConfig,
     }
 
@@ -109,7 +93,6 @@ export default function HlsPlayer({
       startPrebufferWatch()
     })
 
-    // полезная диагностика — можно убрать позже
     hls.on(Hls.Events.FRAG_LOADED, (_e, d) =>
       console.log('FRAG_LOADED', d.frag?.sn, d.stats?.loaded)
     )
