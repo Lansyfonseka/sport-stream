@@ -83,7 +83,7 @@ export default function App() {
       <PreHeader />
       <Header />
       <main>
-        <Channels onChannelSelect={handleChannelSelect} />
+        <Channels onChannelSelect={handleChannelSelect} selectedChannel={selectedChannel} />
         <AdBanner link="https://heylink.me/PrinceBet77" imgUrl={AdBannerImg} />
         {/* <img src={AdBanner} alt='Ad banner' className='s-ad'/> */}
 
@@ -123,7 +123,7 @@ export default function App() {
         {error && <div className="error">שגיאת טעינה: {error}</div>}
         {data && (
           <>
-            <SportsBrowser data={data} onStreamSelect={handleStreamSelect} />
+            <SportsBrowser data={data} onStreamSelect={handleStreamSelect} selectedStream={selectedStream} />
             {data.scheduledMatches && data.scheduledMatches.length > 0 && (
               <UpcomingMatches matches={data.scheduledMatches} />
             )}

@@ -2,6 +2,7 @@ import "./_sportsBrowser.scss"
 
 import { useMemo, useState } from "react"
 import { getCategoryIcon } from "./icons-map"
+import { AppConfig } from "../../config/app.config"
 
 /**
  * Props:
@@ -23,6 +24,7 @@ export default function SportsBrowser({
   data,
   className = "",
   onStreamSelect,
+  selectedStream,
 }) {
   const [activeCat, setActiveCat] = useState('all')
   const [query, setQuery] = useState("")
@@ -167,10 +169,13 @@ export default function SportsBrowser({
       </div>
 
       <ul className="sb__grid" aria-live="polite">
-        {filtered.map((m) => (
+        {filtered.map((m) => {
+          const proxyUrl = `${AppConfig.baseBackUrl}/proxy/${m.stream_url}`;
+          const isActive = selectedStream === proxyUrl;
+          return (
           <li
             key={m.id}
-            className={`sb-card sb-card--${m.status}`}
+            className={`sb-card sb-card--${m.status} ${isActive ? 'sb-card--active' : ''}`}
             onClick={() => onStreamSelect && onStreamSelect(m)}
             style={{ cursor: "pointer" }}
             title={m.status === "live" ? "לחץ לצפייה" : "משחק מתוכנן"}
@@ -224,7 +229,8 @@ export default function SportsBrowser({
               />
             )}
           </li>
-        ))}
+        )})
+        }
       </ul>
 
       {filtered.length === 0 && (

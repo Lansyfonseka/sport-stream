@@ -1,6 +1,7 @@
 import Hls from "hls.js"
 import { useEffect, useRef, useState } from "react"
 import ErrorLoadMedia from "../../assets/error-loading-media.webp"
+import WatermarkLogo from "../../assets/NEXTBETLOGO.png"
 import "./_player.scss"
 
 /**
@@ -14,7 +15,7 @@ export default function HlsPlayer({
   className = "",
   controls = true,
   autoPlay = true,
-  muted = true,
+  muted = false,
   loop = false,
   poster = ErrorLoadMedia,
   playsInline = true,
@@ -151,6 +152,15 @@ export default function HlsPlayer({
         crossOrigin="anonymous"
         {...videoProps}
       />
+      {/* Watermark logo */}
+      <a 
+        href="https://heylink.me/PrinceBet77" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="hls-player__watermark"
+      >
+        <img src={WatermarkLogo} alt="Logo" />
+      </a>
       {/* Индикатор ожидания буфера — опционально */}
       {/* {waiting && <div className="hls-player__overlay">Буферизация…</div>} */}
     </div>

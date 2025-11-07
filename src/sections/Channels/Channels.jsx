@@ -22,7 +22,7 @@ import { leftArrow } from "../../assets/leftArrow"
 import { rightArrow } from "../../assets/rightArrow"
 import { AppConfig } from '../../config/app.config'
 const config = AppConfig
-export default function Channels({ onChannelSelect }) {
+export default function Channels({ onChannelSelect, selectedChannel }) {
   const channels = [
     {
       channelName: "Yes 1",
@@ -124,7 +124,7 @@ export default function Channels({ onChannelSelect }) {
         {channels.map((item, index) => (
           <SwiperSlide
             key={index}
-            className="s-channels__item"
+            className={`s-channels__item ${selectedChannel === item.url ? 's-channels__item--active' : ''}`}
             style={{
               width: `calc((100% - ${slidesPerView - 1
                 }*${spaceBetween}px)/${slidesPerView})`,
