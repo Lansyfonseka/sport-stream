@@ -26,7 +26,7 @@
 
   &__watermark {
     position: absolute;
-    top: 15px;
+    bottom: 80px;
     left: 15px;
     z-index: 2;
     opacity: 0.7;
@@ -207,9 +207,9 @@
   .hls-player__watermark {
     display: block;
     position: absolute;
-    top: 15px;
+    bottom: 80px;
     left: 15px;
-    z-index: 2;
+    z-index: 4;
   }
 
   .hls-player__controls {
