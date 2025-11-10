@@ -256,7 +256,11 @@ export default function HlsPlayer({
         href="https://heylink.me/PrinceBet77"
         target="_blank"
         rel="noopener noreferrer"
-        className="hls-player__watermark"
+        className={`hls-player__watermark ${
+          showControls
+            ? "hls-player__watermark--controls-visible"
+            : "hls-player__watermark--controls-hidden"
+        }`}
       >
         <img src="/princebet77_logo.svg" alt="Logo" />
       </a>

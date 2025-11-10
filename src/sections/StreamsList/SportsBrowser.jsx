@@ -26,7 +26,7 @@ export default function SportsBrowser({
   onStreamSelect,
   selectedStream,
 }) {
-  const [activeCat, setActiveCat] = useState('all')
+  const [activeCat, setActiveCat] = useState('cat-other')
   const [query, setQuery] = useState("")
   const [streamStatus, setStreamStatus] = useState("live")
 
@@ -53,7 +53,19 @@ export default function SportsBrowser({
     const filterCategory = filterStatus.filter((m) =>
       activeCat ? m.category_id === activeCat || activeCat === "all" : true
     )
-    const filterQuery = filterCategory.filter((m) => {
+    
+    // Список разрешенных стран для категории "Other Sports"
+    const allowedCountries = ['UK', 'GB', 'DE', 'ES', 'IT', 'FR', 'NL', 'PT'];
+    
+    // Фильтруем по странам только для категории "cat-other"
+    const filterCountry = filterCategory.filter((m) => {
+      if (activeCat === 'cat-other' && m.status === 'live') {
+        return allowedCountries.includes(m.country);
+      }
+      return true;
+    });
+    
+    const filterQuery = filterCountry.filter((m) => {
       if (!q) return true
       const hay =
         norm(m.league) +
