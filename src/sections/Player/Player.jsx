@@ -262,7 +262,7 @@ export default function HlsPlayer({
             : "hls-player__watermark--controls-hidden"
         }`}
       >
-        <img src="/princebet77_logo.svg" alt="Logo" />
+        <img src="/Newlogo.png" alt="Logo" />
       </a>
       <div
         className={`hls-player__controls ${
