@@ -1,75 +1,74 @@
-import { useEffect, useRef, useState } from "react"
-import { useTickWithAction } from '../../hooks/useTick'
-import sound from './../../assets/silent.wav'
-import "./_embedded-stream.scss"
+import { useEffect, useRef, useState } from "react";
+import { useTickWithAction } from "../../hooks/useTick";
+import sound from "./../../assets/silent.wav";
+import "./_embedded-stream.scss";
 
 export default function EmbeddedStream({ src, showLoader }) {
-  const iframeRef = useRef(null)
-  const containerRef = useRef(null)
-  const [iframeSrc, setIframeSrc] = useState(src)
-  const [isResizing, setIsResizing] = useState(false)
-  const [soundState, setSoundState] = useState(new Audio(sound))
+  const iframeRef = useRef(null);
+  const containerRef = useRef(null);
+  const [iframeSrc, setIframeSrc] = useState(src);
+  const [isResizing, setIsResizing] = useState(false);
+  const [soundState, setSoundState] = useState(new Audio(sound));
 
-  const [style, setStyle] = useState({ transform: "translateY(0px)", height: "200px" })
+  const [style, setStyle] = useState({
+    transform: "translateY(0px)",
+    height: "200px",
+  });
 
   function play(sound) {
-    if ('mediaSession' in navigator) {
+    if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: 'Princebet.tv',
-      })
+        title: "Princebet.tv",
+      });
     }
-    sound.loop = true
-    sound.volume = 0.02
-    sound.play()
+    sound.loop = true;
+    sound.volume = 0.02;
+    sound.play();
   }
   const applyOffset = (iframe) => {
-    if (!iframe.current) return
-    setStyle({ transform: "translateY(-100px)", height: "calc(100% + 200px)" })
-  }
-  useTickWithAction(2000, applyOffset, [iframeRef])
-  useTickWithAction(200, play, [soundState])
-
-
+    if (!iframe.current) return;
+    setStyle({ transform: "translateY(-100px)", height: "calc(100% + 200px)" });
+  };
+  useTickWithAction(2000, applyOffset, [iframeRef]);
+  useTickWithAction(200, play, [soundState]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setIframeSrc(`${src}?t=${new Date().getTime()}`)
-    }, 5000)
-    return () => clearTimeout(timeout)
-  }, [src])
-
+      setIframeSrc(`${src}?t=${new Date().getTime()}`);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [src]);
 
   useEffect(() => {
-    let resizeTimeout
-    let lastWidth = window.innerWidth
+    let resizeTimeout;
+    let lastWidth = window.innerWidth;
 
     const handleResize = () => {
-      if (document.fullscreenElement) return
+      if (document.fullscreenElement) return;
 
-      const currentWidth = window.innerWidth
-      if (currentWidth === lastWidth) return
-      lastWidth = currentWidth
+      const currentWidth = window.innerWidth;
+      if (currentWidth === lastWidth) return;
+      lastWidth = currentWidth;
 
       if (iframeRef.current) {
-        setIsResizing(true)
-        setIframeSrc(`${src}?t=${new Date().getTime()}`)
-        clearTimeout(resizeTimeout)
+        setIsResizing(true);
+        setIframeSrc(`${src}?t=${new Date().getTime()}`);
+        clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-          setIsResizing(false)
-        }, 3000)
+          setIsResizing(false);
+        }, 3000);
       }
-    }
+    };
 
-    window.addEventListener("resize", handleResize)
-    window.addEventListener("orientationchange", handleResize)
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize)
-      window.removeEventListener("orientationchange", handleResize)
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
 
-      clearTimeout(resizeTimeout)
-    }
-  }, [src])
-
+      clearTimeout(resizeTimeout);
+    };
+  }, [src]);
 
   return (
     <div className="embedded-stream">
@@ -86,7 +85,7 @@ export default function EmbeddedStream({ src, showLoader }) {
         allow="autoplay; fullscreen"
       />
       <div className="embedded-stream__blur-corner">
-        <img src="/princebet77_logo.svg" />
+        <img src="/Newlogo.png" />
       </div>
       <div className="embedded-stream__blur-corner-fullscreen" />
 
@@ -97,5 +96,5 @@ export default function EmbeddedStream({ src, showLoader }) {
         </div>
       )}
     </div>
-  )
+  );
 }
