@@ -1,7 +1,10 @@
 import Hls from "hls.js";
 import { useEffect, useRef, useState } from "react";
-import ErrorLoadMedia from "../../assets/error-loading-media.webp";
 import "./_player.scss";
+
+const isIOS =
+  typeof window !== "undefined" &&
+  /iP(hone|od|ad)/.test(window.navigator.userAgent);
 
 const formatTime = (seconds) => {
   if (isNaN(seconds)) return "0:00";
@@ -10,19 +13,12 @@ const formatTime = (seconds) => {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
-/**
- * HLS-плеер с «толстым» буфером и пребуферингом.
- * - Увеличенные maxBufferLength / maxMaxBufferLength
- * - Держим отступ от live-края (liveSyncDuration / liveMaxLatencyDuration)
- * - autoStartLoad=false + старт загрузки раньше, воспроизведение — после накопления N сек
- */
 export default function HlsPlayer({
   src,
   className = "",
   autoPlay = true,
   muted = false,
   loop = false,
-  poster = ErrorLoadMedia,
   playsInline = true,
   videoProps = {},
   prebufferSeconds = 15,
@@ -45,14 +41,13 @@ export default function HlsPlayer({
     const video = videoRef.current;
     if (!video || !src) return;
 
-    // базовый «толстый» конфиг
     const defaultConfig = {
       enableWorker: true,
       lowLatencyMode: false,
-      maxBufferLength: 40, // можно 20–60
-      maxMaxBufferLength: 180, // можно 120–300
-      liveSyncDuration: 15, // целевая задержка от live-края (15 секунд)
-      liveMaxLatencyDuration: 30, // максимум, прежде чем «догонять» (30 секунд)
+      maxBufferLength: 40,
+      maxMaxBufferLength: 180,
+      liveSyncDuration: 15,
+      liveMaxLatencyDuration: 30,
       liveDurationInfinity: true,
       autoStartLoad: false,
       startFragPrefetch: true,
@@ -83,14 +78,12 @@ export default function HlsPlayer({
     const startPrebufferWatch = () => {
       clearInterval(prebufferTimer);
       if (!autoPlay || prebufferSeconds <= 0) {
-        // без пребуфера — просто play
         safePlay();
         return;
       }
       setWaiting(true);
       prebufferTimer = setInterval(() => {
         const ahead = getBufferedAhead();
-        // как только набрали нужный запас — стартуем
         if (ahead >= prebufferSeconds) {
           clearInterval(prebufferTimer);
           prebufferTimer = null;
@@ -103,35 +96,10 @@ export default function HlsPlayer({
     hls.attachMedia(video);
     hls.on(Hls.Events.MEDIA_ATTACHED, () => {
       hls.loadSource(src);
-      // начинаем подкачку сразу, но без play
-      hls.startLoad(-1); // -1 = с подходящего места
+      hls.startLoad(-1);
       startPrebufferWatch();
     });
 
-    hls.on(Hls.Events.FRAG_LOADED, (_e, d) =>
-      console.log("FRAG_LOADED", d.frag?.sn, d.stats?.loaded)
-    );
-    hls.on(Hls.Events.BUFFER_APPENDING, (_e, d) =>
-      console.log("BUFFER_APPENDING", d.type, d.startPTS, d.endPTS)
-    );
-
-    hls.on(Hls.Events.ERROR, (_e, data) => {
-      console.warn("[HLS ERROR]", data.type, data.details);
-      if (!data.fatal) return;
-      switch (data.type) {
-        case Hls.ErrorTypes.NETWORK_ERROR:
-          hls.startLoad();
-          break;
-        case Hls.ErrorTypes.MEDIA_ERROR:
-          hls.recoverMediaError();
-          break;
-        default:
-          hls.destroy();
-          break;
-      }
-    });
-
-    // если вкладка стала активной — пробуем воспроизвести
     const onVis = () => {
       if (document.visibilityState === "visible" && !waiting && autoPlay) {
         safePlay();
@@ -139,48 +107,55 @@ export default function HlsPlayer({
     };
     document.addEventListener("visibilitychange", onVis);
 
-    // Перехват fullscreen: если пользователь нажал нативную кнопку video
     const container = containerRef.current;
-    if (!container) return;
 
-    const fsEl = () =>
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement;
+    let onFSChange;
+    if (container && !isIOS) {
+      const fsEl = () =>
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement;
 
-    const exitFS = () =>
-      document.exitFullscreen?.() ||
-      document.webkitExitFullscreen?.() ||
-      document.msExitFullscreen?.();
+      const exitFS = () =>
+        document.exitFullscreen?.() ||
+        document.webkitExitFullscreen?.() ||
+        document.msExitFullscreen?.();
 
-    const enterContainerFS = () => {
-      if (container.requestFullscreen) container.requestFullscreen();
-      else if (container.webkitRequestFullscreen)
-        container.webkitRequestFullscreen();
-      else if (container.mozRequestFullScreen) container.mozRequestFullScreen();
-      else if (container.msRequestFullscreen) container.msRequestFullscreen();
-    };
+      const enterContainerFS = () => {
+        if (container.requestFullscreen) container.requestFullscreen();
+        else if (container.webkitRequestFullscreen)
+          container.webkitRequestFullscreen();
+        else if (container.mozRequestFullScreen)
+          container.mozRequestFullScreen();
+        else if (container.msRequestFullscreen)
+          container.msRequestFullscreen();
+      };
 
-    const onFSChange = async () => {
-      if (fsEl() === video) {
-        await exitFS();
-        enterContainerFS();
-      }
-      setIsFullscreen(!!fsEl());
-    };
+      onFSChange = async () => {
+        if (fsEl() === video) {
+          await exitFS();
+          enterContainerFS();
+        }
+        setIsFullscreen(!!fsEl());
+      };
 
-    document.addEventListener("fullscreenchange", onFSChange);
-    document.addEventListener("webkitfullscreenchange", onFSChange);
-    document.addEventListener("mozfullscreenchange", onFSChange);
-    document.addEventListener("msfullscreenchange", onFSChange);
+      document.addEventListener("fullscreenchange", onFSChange);
+      document.addEventListener("webkitfullscreenchange", onFSChange);
+      document.addEventListener("mozfullscreenchange", onFSChange);
+      document.addEventListener("msfullscreenchange", onFSChange);
+    }
 
     return () => {
       document.removeEventListener("visibilitychange", onVis);
-      document.removeEventListener("fullscreenchange", onFSChange);
-      document.removeEventListener("webkitfullscreenchange", onFSChange);
-      document.removeEventListener("mozfullscreenchange", onFSChange);
-      document.removeEventListener("msfullscreenchange", onFSChange);
+
+      if (!isIOS && onFSChange) {
+        document.removeEventListener("fullscreenchange", onFSChange);
+        document.removeEventListener("webkitfullscreenchange", onFSChange);
+        document.removeEventListener("mozfullscreenchange", onFSChange);
+        document.removeEventListener("msfullscreenchange", onFSChange);
+      }
+
       clearInterval(prebufferTimer);
       if (hlsRef.current) {
         hlsRef.current.destroy();
@@ -195,6 +170,27 @@ export default function HlsPlayer({
       }
     };
   }, [src, autoPlay, prebufferSeconds, JSON.stringify(bufferConfig)]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !isIOS) return;
+
+    const handleBeginFS = () => {
+      setIsFullscreen(true);
+    };
+
+    const handleEndFS = () => {
+      setIsFullscreen(false);
+    };
+
+    video.addEventListener("webkitbeginfullscreen", handleBeginFS);
+    video.addEventListener("webkitendfullscreen", handleEndFS);
+
+    return () => {
+      video.removeEventListener("webkitbeginfullscreen", handleBeginFS);
+      video.removeEventListener("webkitendfullscreen", handleEndFS);
+    };
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -224,6 +220,13 @@ export default function HlsPlayer({
 
   return (
     <div ref={containerRef} className={`hls-player ${className}`}>
+      {/* *** Новый текстовый постер *** */}
+      {(waiting || !isPlaying) && (
+        <div className="hls-player__loading-overlay">
+          טעינה, אנא המתן
+        </div>
+      )}
+
       <video
         ref={videoRef}
         className="hls-player__video"
@@ -231,7 +234,6 @@ export default function HlsPlayer({
         autoPlay={autoPlay}
         muted={muted}
         loop={loop}
-        poster={poster}
         playsInline={playsInline}
         preload="auto"
         crossOrigin="anonymous"
@@ -252,6 +254,7 @@ export default function HlsPlayer({
         }}
         {...videoProps}
       />
+
       <a
         href="https://heylink.me/PrinceBet77"
         target="_blank"
@@ -264,6 +267,7 @@ export default function HlsPlayer({
       >
         <img src="/Newlogo.png" alt="Logo" />
       </a>
+
       <div
         className={`hls-player__controls ${
           showControls
@@ -299,21 +303,11 @@ export default function HlsPlayer({
             title={isPlaying ? "Пауза" : "Воспроизвести"}
           >
             {isPlaying ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
               </svg>
             ) : (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
               </svg>
             )}
@@ -330,34 +324,20 @@ export default function HlsPlayer({
               title={isMuted ? "Включить звук" : "Выключить звук"}
             >
               {isMuted || volume === 0 ? (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
                 </svg>
               ) : volume < 0.5 ? (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M7 9v6h4l5 5V4l-5 5H7z" />
                 </svg>
               ) : (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
                 </svg>
               )}
             </button>
+
             <input
               type="range"
               min="0"
@@ -384,12 +364,32 @@ export default function HlsPlayer({
             className="hls-player__btn"
             onClick={() => {
               const container = containerRef.current;
+              const video = videoRef.current;
+              if (!video) return;
+
+              if (isIOS) {
+                if (!isFullscreen) {
+                  const anyVideo = video;
+                  if (typeof anyVideo.webkitEnterFullscreen === "function") {
+                    anyVideo.webkitEnterFullscreen();
+                  }
+                } else {
+                  const anyVideo = video;
+                  if (typeof anyVideo.webkitExitFullscreen === "function") {
+                    anyVideo.webkitExitFullscreen();
+                  }
+                }
+                return;
+              }
+
               if (!container) return;
+
               if (isFullscreen) {
                 if (document.exitFullscreen) document.exitFullscreen();
                 else if (document.webkitExitFullscreen)
                   document.webkitExitFullscreen();
-                else if (document.msExitFullscreen) document.msExitFullscreen();
+                else if (document.msExitFullscreen)
+                  document.msExitFullscreen();
               } else {
                 if (container.requestFullscreen) container.requestFullscreen();
                 else if (container.webkitRequestFullscreen)
@@ -400,40 +400,19 @@ export default function HlsPlayer({
                   container.msRequestFullscreen();
               }
             }}
-            title={
-              isFullscreen
-                ? "Выйти из полноэкранного режима"
-                : "Полноэкранный режим"
-            }
           >
             {isFullscreen ? (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
               </svg>
             ) : (
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
               </svg>
             )}
           </button>
         </div>
       </div>
-      {/* Индикатор ожидания буфера — опционально */}
-      {/* {waiting && <div className="hls-player__overlay">Буферизация…</div>} */}
     </div>
   );
 }
